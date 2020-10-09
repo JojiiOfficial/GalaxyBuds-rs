@@ -20,25 +20,20 @@ const CRC16TAB: [i32; 256] = [
     20053, 24180, 11923, 16050, 3793, 7920,
 ];
 
-fn crc16_ccitt(barr: &[i32], i: i32) -> i32 {
-    let i = i as usize;
-    let mut i2: i32 = 0;
-
-    for l in 0..i {
-        i2 = CRC16TAB[(((i2 >> 8) ^ barr[l as usize]) & 255) as usize] ^ (i2 << 8);
+pub fn crc16_ccitt(barr: &Vec<u8>, i: usize) -> i32 {
+    let mut i2 = 0 as i32;
+    for i3 in 0..i - 1 {
+        i2 = CRC16TAB[(((i2 >> 8) ^ barr[i3 as usize] as i32) & 255) as usize] ^ (i2 << 8);
     }
-
-    65535 & i2
+    return 65535 & i2;
 }
 
-fn crc16_ccitt2(barr: &[i32], i: i32, i2: i32) -> i32 {
+pub fn crc16_ccitt2(barr: &Vec<u8>, i: usize, i2: usize) -> i32 {
     let mut i3: i32 = 0;
-
-    let mut i = i as usize;
-    let i2 = i2 as usize;
+    let mut i = i;
 
     while i < i2 {
-        i3 = CRC16TAB[(((i3 >> 8) ^ barr[i as usize]) & 255) as usize] ^ (i3 << 8);
+        i3 = CRC16TAB[(((i3 >> 8) ^ barr[i] as i32) & 255) as usize] ^ (i3 << 8);
         i = i + 1;
     }
 
