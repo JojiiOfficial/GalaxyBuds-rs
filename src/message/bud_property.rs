@@ -15,6 +15,10 @@ pub trait BudProperty {
     }
 
     fn decode(val: u8) -> Self::Item;
+
+    fn encode(&self) -> u8 {
+        0
+    }
 }
 
 #[derive(Debug, PartialEq)]
@@ -92,6 +96,18 @@ impl BudProperty for EqualizerType {
             4 => EqualizerType::Clear,
             5 => EqualizerType::TrebleBoost,
             _ => EqualizerType::Undetected,
+        }
+    }
+
+    fn encode(&self) -> u8 {
+        match *self {
+            EqualizerType::Normal => 0,
+            EqualizerType::BassBoost => 2,
+            EqualizerType::Soft => 2,
+            EqualizerType::Dynamic => 3,
+            EqualizerType::Clear => 4,
+            EqualizerType::TrebleBoost => 5,
+            EqualizerType::Undetected => 10,
         }
     }
 }

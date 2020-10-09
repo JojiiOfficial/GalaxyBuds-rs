@@ -1,5 +1,6 @@
 pub mod bud_property;
 
+pub mod equalizer;
 pub mod extended_status_updated;
 pub mod ids;
 pub mod mute_earbud;
