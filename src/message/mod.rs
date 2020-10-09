@@ -1,11 +1,12 @@
 pub mod bud_property;
 
-pub mod equalizer;
 pub mod extended_status_updated;
 pub mod ids;
 pub mod mute_earbud;
+pub mod response;
 pub mod set_noise_reduction;
 pub mod simple;
+pub mod simple_helper;
 pub mod status_updated;
 pub mod touch_updated;
 pub mod voice_wakeup_listening_status;
@@ -16,6 +17,14 @@ pub const EOM: u8 = 221;
 
 pub trait Message {
     fn get_id(&self) -> u8;
+
+    fn is_response(&self) -> bool {
+        false
+    }
+
+    fn is_fragment(&self) -> bool {
+        false
+    }
 
     fn get_data(&self) -> Vec<u8> {
         vec![]
@@ -40,7 +49,7 @@ pub trait Message {
         b_arr[0] = 253;
         b_arr[i3 - 1 as usize] = EOM;
 
-        let create_header = create_header(i2 as i32);
+        let create_header = Self::create_header(self, i2 as i32);
         b_arr[1] = create_header[0];
         b_arr[2] = create_header[1];
 
@@ -57,11 +66,20 @@ pub trait Message {
 
         b_arr
     }
-}
 
-fn create_header(i: i32) -> [u8; 2] {
-    let from_short = byteutil::from_short(i & 1023);
-    from_short
+    fn create_header(&self, i: i32) -> [u8; 2] {
+        let mut from_short = byteutil::from_short(i & 1023);
+
+        if Self::is_fragment(self) {
+            from_short[1] = from_short[1] | 32;
+        }
+
+        if Self::is_response(self) {
+            from_short[1] = from_short[1] | 16;
+        }
+
+        from_short
+    }
 }
 
 pub fn arraycopy<T>(

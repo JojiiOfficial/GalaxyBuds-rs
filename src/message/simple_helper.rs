@@ -3,6 +3,6 @@ use super::{
     ids, simple,
 };
 
-pub fn new(d: EqualizerType) -> simple::Simple {
+pub fn new_equalizer(d: EqualizerType) -> simple::Simple {
     simple::new(ids::EQUALIZER, d.encode())
 }
