@@ -1,4 +1,4 @@
-use super::message::Message;
+use super::Message;
 
 // TODO fix this
 #[derive(Debug)]

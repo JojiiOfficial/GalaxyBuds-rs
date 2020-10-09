@@ -1,6 +1,6 @@
 [package]
-name = "GalaxyBudsLive-rs"
-version = "0.1.0"
+name = "galaxy_buds_live_rs"
+version = "0.1.1"
 authors = ["jojii <jojii@gmx.net>"]
 edition = "2018"
 readme = "README.md"

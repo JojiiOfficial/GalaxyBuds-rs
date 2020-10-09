@@ -1,4 +1,4 @@
-use super::message::Message;
+use super::Message;
 
 #[derive(Debug)]
 pub struct SetNoiseReduction {
