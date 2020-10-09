@@ -1,24 +1,27 @@
 pub mod bud_property;
 
 pub mod extended_status_updated;
+pub mod ids;
 pub mod mute_earbud;
 pub mod set_noise_reduction;
+pub mod simple;
 pub mod status_updated;
 pub mod touch_updated;
 pub mod voice_wakeup_listening_status;
 
 use crate::utils::{byteutil, crc16};
+
 pub const EOM: u8 = 221;
 
 pub trait Message {
-    fn get_id() -> u8;
+    fn get_id(&self) -> u8;
 
     fn get_data(&self) -> Vec<u8> {
         vec![]
     }
 
     fn to_byte_array(&self) -> Vec<u8> {
-        let b = Self::get_id();
+        let b = Self::get_id(&self);
         let data = Self::get_data(self);
 
         let i = {

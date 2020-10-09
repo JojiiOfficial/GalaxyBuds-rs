@@ -1,4 +1,4 @@
-use super::Message;
+use super::{ids, Message};
 
 // TODO fix this
 #[derive(Debug)]
@@ -19,7 +19,7 @@ impl Message for MuteEarbud {
         vec![self.left_muted.into(), self.right_muted.into()]
     }
 
-    fn get_id() -> u8 {
-        162 // -94 in java
+    fn get_id(&self) -> u8 {
+        ids::MUTE_EARBUD
     }
 }

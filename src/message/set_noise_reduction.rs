@@ -1,4 +1,4 @@
-use super::Message;
+use super::{ids, Message};
 
 #[derive(Debug)]
 pub struct SetNoiseReduction {
@@ -14,7 +14,7 @@ impl Message for SetNoiseReduction {
         vec![self.noise_reduction.into()]
     }
 
-    fn get_id() -> u8 {
-        152 // -104 in java
+    fn get_id(&self) -> u8 {
+        ids::SET_NOISE_REDUCTION
     }
 }
