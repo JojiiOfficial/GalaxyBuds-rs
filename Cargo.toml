@@ -1,11 +1,11 @@
 [package]
-name = "earbuds"
+name = "GalaxyBudsLive-rs"
 version = "0.1.0"
 authors = ["jojii <jojii@gmx.net>"]
 edition = "2018"
 readme = "README.md"
 license-file = "LICENSE"
-
+repository = "https://github.com/JojiiOfficial/GalaxyBudsLive-rs"
+description = "The Galaxy Buds live bluetooth protocol reverse engineered"
 
 [dependencies]
-bluetooth-serial-port = "0.6.0"
