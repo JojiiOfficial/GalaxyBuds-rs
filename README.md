@@ -1,4 +1,7 @@
 # GalaxyBudsLive-rs
+![crates](https://img.shields.io/crates/dv/galaxy_buds_live_rs?style=flat-square)
+![PRs](https://img.shields.io/badge/PRs-welcome-56cc14?style=flat-square)
+
 A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can be used to communicate with your earbuds from rust.
 
 #### To use:
