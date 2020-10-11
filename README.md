@@ -1,2 +1,24 @@
 # GalaxyBudsLive-rs
-A rust wrapper for the GalaxyBudsLive bluetooth protocol
+A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can be used to communicate with your earbuds from rust.
+
+# Features
+
+### Receiving
+- [x] Statusupdate
+- [x] Extended statusupdate
+- [x] Touch updated
+- [x] Voice wakeup listening update
+- [ ] Touchpad tap update
+- [ ] Version info
+
+### Sending
+- [x] Un/Lock touchpad
+- [x] Set noisereduction
+- [x] Set Equalizer
+- [x] Adjust sound sync
+- [x] Mute earbud (not working)
+- [ ] Set touchpad option
+- [ ] Update time
+- [ ] Voice notification status
+- [ ] Find my earbuds
+- [ ] Self test
