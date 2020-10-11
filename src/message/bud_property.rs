@@ -36,6 +36,16 @@ pub enum Side {
     Right,
 }
 
+impl From<bool> for Side {
+    fn from(inp_side: bool) -> Side {
+        if !inp_side {
+            Side::Right
+        } else {
+            Side::Left
+        }
+    }
+}
+
 /// Where an earbud is placed in the
 /// physical real life world
 #[derive(Debug, PartialEq, Copy, Clone)]
