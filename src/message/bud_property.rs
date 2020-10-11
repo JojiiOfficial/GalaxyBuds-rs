@@ -86,6 +86,16 @@ pub enum TouchpadOption {
 impl BudProperty for TouchpadOption {
     type Item = TouchpadOption;
 
+    fn encode(&self) -> u8 {
+        match *self {
+            TouchpadOption::VoiceCommand => 1,
+            TouchpadOption::NoiseCanceling => 2,
+            TouchpadOption::Volume => 3,
+            TouchpadOption::Spotify => 4,
+            TouchpadOption::Undetected => 0,
+        }
+    }
+
     fn decode(val: u8) -> TouchpadOption {
         match val {
             1 => TouchpadOption::VoiceCommand,

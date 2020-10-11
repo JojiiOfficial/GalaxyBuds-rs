@@ -2,6 +2,7 @@ pub mod bud_property;
 
 pub mod extended_status_updated;
 pub mod find_my_bud;
+pub mod set_touchpad_option;
 pub mod ids;
 pub mod lock_touchpad;
 pub mod mute_earbud;

@@ -29,7 +29,7 @@ cargo add galaxy_buds_live_rs
 - [x] Mute earbud
 - [x] Find my earbuds
 - [x] Prepare voice notification (notifications TTS)
-- [ ] Set touchpad option
+- [x] Set touchpad option
 - [ ] Update time
 
 # Examples
