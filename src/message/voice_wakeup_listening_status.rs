@@ -16,3 +16,9 @@ impl Payload for VoicewakeUpListeningStatus {
         ids::VOICE_WAKE_UP_LISTENING_STATUS
     }
 }
+
+impl Into<VoicewakeUpListeningStatus> for super::Message {
+    fn into(self) -> VoicewakeUpListeningStatus {
+        new(self.get_payload_bytes())
+    }
+}

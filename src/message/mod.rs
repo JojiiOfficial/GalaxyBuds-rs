@@ -30,8 +30,10 @@ pub struct Message {
 /// Msg defines the trait which need to be
 /// implemented by an inner message (msg).
 pub trait Payload {
+    /// Getter for the message ID
     fn get_id(&self) -> u8;
 
+    /// The payload data encoded for sending
     fn get_data(&self) -> Vec<u8> {
         vec![]
     }

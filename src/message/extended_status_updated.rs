@@ -61,3 +61,10 @@ impl Payload for ExtendedStatusUpdate {
         ids::EXTENDED_STATUS_UPDATED
     }
 }
+
+/// Allow parsing a Message to an ExtendedStatusUpdate
+impl Into<ExtendedStatusUpdate> for super::Message {
+    fn into(self) -> ExtendedStatusUpdate {
+        new(self.get_payload_bytes())
+    }
+}
