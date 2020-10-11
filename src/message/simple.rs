@@ -51,3 +51,7 @@ pub fn new_equalizer(d: EqualizerType) -> simple::Simple {
 pub fn new_adjust_sound_sync(adjust: bool) -> simple::Simple {
     simple::new(ids::ADJUST_SOUND_SYNC, adjust.into())
 }
+
+pub fn new_voice_noti_prepare(status: bool) -> simple::Simple {
+    simple::new(ids::VOICE_NOTI_STATUS, status.into())
+}
