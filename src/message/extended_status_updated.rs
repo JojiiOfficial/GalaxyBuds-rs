@@ -1,6 +1,8 @@
 // Message ID: 97
 
 use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
+use super::{Msg, ids};
+
 
 const DEVICE_COLOR_BLACK: u8 = 2;
 const DEVICE_COLOR_PINK: u8 = 4;
@@ -54,5 +56,11 @@ pub fn new(arr: &[u8]) -> ExtendedStatusUpdate {
         touchpad_option_right: TouchpadOption::value(arr[11], Side::Right),
         noise_reduction: arr[12] == 1,
         voice_wake_up: arr[13] == 1,
+    }
+}
+
+impl Msg for ExtendedStatusUpdate{
+    fn get_id(&self) -> u8 {
+        ids::EXTENDED_STATUS_UPDATED
     }
 }
