@@ -22,3 +22,11 @@ A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can
 - [ ] Voice notification status
 - [ ] Find my earbuds
 - [ ] Self test
+
+# Examples
+
+### Receive
+Set the `address` value in `examples/receive.rs` to your Buds' mac address and run following:
+```bash
+cargo --example receive
+```
