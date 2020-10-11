@@ -39,7 +39,7 @@ impl Payload for StatusUpdate {
     }
 }
 
-/// Allow parsing Message to a StatusUpdate
+// Allow parsing Message to a StatusUpdate
 impl Into<StatusUpdate> for super::Message {
     fn into(self) -> StatusUpdate {
         new(self.get_payload_bytes())

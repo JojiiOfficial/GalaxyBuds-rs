@@ -47,6 +47,7 @@ pub const SET_VOICE_WAKE_UP: u8 = 151;
 pub const STATUS_UPDATED: u8 = 96;
 pub const TOUCHPAD_OTHER_OPTION: u8 = 147;
 pub const TOUCH_UPDATED: u8 = 145;
+pub const TOUCHPAD_ACTION: u8 = 45;
 pub const UPDATE_TIME: u8 = 167;
 pub const USAGE_REPORT: u8 = 64;
 pub const VERSION_INFO: u8 = 99;

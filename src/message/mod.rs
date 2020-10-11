@@ -9,6 +9,7 @@ pub mod set_noise_reduction;
 pub mod simple;
 pub mod status_updated;
 pub mod touch_updated;
+pub mod touchpad_action;
 pub mod voice_wakeup_listening_status;
 
 use crate::utils::{self, byteutil, crc16};

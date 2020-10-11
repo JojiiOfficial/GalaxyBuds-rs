@@ -8,7 +8,7 @@ A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can
 - [x] Extended statusupdate
 - [x] Touch updated
 - [x] Voice wakeup listening update
-- [ ] Touchpad tap update
+- [x] Touchpad tap action
 - [ ] Version info
 
 ### Sending
