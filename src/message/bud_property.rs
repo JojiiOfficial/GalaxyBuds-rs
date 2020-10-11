@@ -1,8 +1,11 @@
 use crate::utils::byteutil;
 
+/// A property value of a single earbud
 pub trait BudProperty {
     type Item;
 
+    /// Get the corresponding value of a byte based on the
+    /// side of the earbud (left/right)
     fn side_val(val: u8, side: Side) -> u8 {
         match side {
             Side::Left => byteutil::value_of_left(val),
@@ -10,23 +13,31 @@ pub trait BudProperty {
         }
     }
 
+    /// Get the property item decoded based on
+    /// the side and msg byte
     fn value(val: u8, side: Side) -> Self::Item {
         Self::decode(Self::side_val(val, side))
     }
 
+    /// Decode the value. Returns a property variant
     fn decode(val: u8) -> Self::Item;
 
+    /// Needs to be implemented to send a
+    /// property variant inside a msg payload
     fn encode(&self) -> u8 {
         0
     }
 }
 
+/// The side of an earbud.
 #[derive(Debug, PartialEq)]
 pub enum Side {
     Left,
     Right,
 }
 
+/// Where an earbud is placed in the
+/// physical real life world
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum Placement {
     InOpenCase,
@@ -36,6 +47,8 @@ pub enum Placement {
     Undetected,
 }
 
+/// Placement comes inside some payloads so
+/// define the decode() here
 impl BudProperty for Placement {
     type Item = Placement;
 
@@ -50,6 +63,7 @@ impl BudProperty for Placement {
     }
 }
 
+/// Which option is set for holding the touchpad
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum TouchpadOption {
     NoiseCanceling,
@@ -73,6 +87,7 @@ impl BudProperty for TouchpadOption {
     }
 }
 
+/// The selected EqualizerType
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum EqualizerType {
     Normal,

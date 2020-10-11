@@ -1,5 +1,6 @@
 use super::{ids, Msg};
 
+/// Lock or unlock the touchpad
 #[derive(Debug)]
 pub struct LockTouchpad {
     pub lock: bool,

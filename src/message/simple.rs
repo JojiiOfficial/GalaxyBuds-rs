@@ -19,7 +19,7 @@ pub fn new(msg_id: u8, data: u8) -> Simple {
     }
 }
 
-/// New simple response message
+/// New simple response
 pub fn new_response(msg_id: u8, data: u8) -> Simple {
     Simple {
         msg_id,
