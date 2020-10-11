@@ -26,12 +26,11 @@ cargo add galaxy_buds_live_rs
 - [x] Set noisereduction
 - [x] Set Equalizer
 - [x] Adjust sound sync
-- [x] Mute earbud (not working)
+- [x] Mute earbud
+- [x] Find my earbuds
 - [ ] Set touchpad option
 - [ ] Update time
-- [ ] Voice notification status
-- [ ] Find my earbuds
-- [ ] Self test
+- [ ] Prepare voice notification (notifications TTS)
 
 # Examples
 

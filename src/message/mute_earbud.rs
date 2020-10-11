@@ -1,6 +1,6 @@
 use super::{ids, Payload};
 
-// TODO fix this
+// Only available in FindMyGear mode
 #[derive(Debug)]
 pub struct MuteEarbud {
     pub left_muted: bool,
