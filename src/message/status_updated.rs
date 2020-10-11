@@ -15,7 +15,7 @@ pub struct StatusUpdate {
     pub battery_case: i8,
 }
 
-pub fn new(arr: Vec<u8>) -> StatusUpdate {
+pub fn new(arr: &[u8]) -> StatusUpdate {
     let placement_left = Placement::value(arr[5], Side::Left);
     let placement_right = Placement::value(arr[5], Side::Right);
 
@@ -41,6 +41,6 @@ impl Payload for StatusUpdate {
 
 impl Into<StatusUpdate> for super::Message {
     fn into(self) -> StatusUpdate {
-        new(self.data)
+        new(self.get_payload_bytes())
     }
 }

@@ -1,4 +1,3 @@
-// Message ID: 145 (-111)
 use super::{ids, Payload};
 
 #[derive(Debug)]

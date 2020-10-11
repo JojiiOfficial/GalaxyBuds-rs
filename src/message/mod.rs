@@ -89,8 +89,8 @@ pub trait Payload {
 
 impl Message {
     /// Create a new message object from read data
-    pub fn new(data: Vec<u8>) -> Message {
-        return Message { data };
+    pub fn new<I: Into<Vec<u8>>>(data: I) -> Message {
+        return Message { data: data.into() };
     }
 
     /// Get the payload length of the message
@@ -115,8 +115,13 @@ impl Message {
     }
 
     /// Get the payload start index of the messages data
-    pub fn get_payload_start_index() -> i32 {
+    pub fn get_payload_start_index() -> usize {
         3
+    }
+
+    /// Return the bytes of the payload within the message
+    pub fn get_payload_bytes(&self) -> &[u8] {
+        &self.data[Self::get_payload_start_index() + 1..]
     }
 
     /// Verify that the message is correctly received using
