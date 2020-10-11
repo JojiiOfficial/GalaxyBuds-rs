@@ -23,14 +23,8 @@ pub const BOM: u8 = 253;
 /// payload. In addition it contains some nice
 /// functions which are dependend on the data
 pub struct Message {
-    // the data of a message
+    // the data of the message
     data: Vec<u8>,
-}
-
-impl Message {
-    pub fn new(data: Vec<u8>) -> Message {
-        return Message { data };
-    }
 }
 
 /// Msg defines the trait which need to be
@@ -49,19 +43,12 @@ pub trait Payload {
     /// Create a message byte array from a message. This
     /// is required to send a message to the buds.
     fn to_byte_array(&self) -> Vec<u8> {
-        let b = Self::get_id(&self);
-        let data = Self::get_data(&self);
+        let id = Self::get_id(&self);
+        let payload_data = Self::get_data(&self);
+        let payload_len = payload_data.len();
 
-        let i = {
-            if data.len() > 0 {
-                data.len()
-            } else {
-                0
-            }
-        };
-
-        let i2 = i + 1 + 2;
-        let i3 = i2 + 3 + 1;
+        let i2 = payload_len + 3;
+        let i3 = i2 + 4;
 
         let mut b_arr: Vec<u8> = vec![0; i3];
         b_arr[0] = BOM;
@@ -72,8 +59,8 @@ pub trait Payload {
         b_arr[2] = create_header[1];
 
         let mut b_arr2: Vec<u8> = vec![0; i2];
-        b_arr2[0] = b;
-        utils::array::arraycopy(&data, 0, &mut b_arr2, 1, data.len());
+        b_arr2[0] = id;
+        utils::array::arraycopy(&payload_data, 0, &mut b_arr2, 1, payload_data.len());
 
         let crc16_ccitt = crc16::crc16_ccitt(&b_arr2, b_arr2.len() - 1);
 
@@ -101,6 +88,11 @@ pub trait Payload {
 }
 
 impl Message {
+    /// Create a new message object from read data
+    pub fn new(data: Vec<u8>) -> Message {
+        return Message { data };
+    }
+
     /// Get the payload length of the message
     pub fn get_payload_length(&self) -> i32 {
         self.get_u8() & 1023
