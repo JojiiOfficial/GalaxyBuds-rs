@@ -6,14 +6,16 @@ use bluetooth_serial_port_async::{BtAddr, BtProtocol, BtSocket};
 use std::{error::Error, str::FromStr};
 
 async fn run() -> Result<(), Box<dyn Error>> {
-    let mut socket = BtSocket::new(BtProtocol::RFCOMM).unwrap();
-
     let address = "<Your Buds address here!!>";
+
+    let mut socket = BtSocket::new(BtProtocol::RFCOMM).unwrap();
     socket.connect(&BtAddr::from_str(address).unwrap()).unwrap();
 
-    let mut buffer = [0; 2048];
+    // Get the stream of the socket. Only call this function
+    // once and keep using the stream
     let mut stream = socket.get_stream();
 
+    let mut buffer = [0; 2048];
     loop {
         let num_bytes_read = stream.read(&mut buffer[..]).await.unwrap();
         let buff = &buffer[0..num_bytes_read];

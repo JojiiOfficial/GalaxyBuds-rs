@@ -30,3 +30,9 @@ Set the `address` value in `examples/receive.rs` to your Buds' mac address and r
 ```bash
 cargo --example receive
 ```
+
+### Send
+Set the `address` value in `examples/send.rs` to your Buds' mac address and run following:
+```bash
+cargo --example send
+```
