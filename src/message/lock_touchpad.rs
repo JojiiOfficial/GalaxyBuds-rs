@@ -1,4 +1,4 @@
-use super::{ids, Msg};
+use super::{ids, Payload};
 
 /// Lock or unlock the touchpad
 #[derive(Debug)]
@@ -10,7 +10,7 @@ pub fn new(lock: bool) -> LockTouchpad {
     LockTouchpad { lock }
 }
 
-impl Msg for LockTouchpad {
+impl Payload for LockTouchpad {
     fn get_data(&self) -> Vec<u8> {
         vec![self.lock.into()]
     }

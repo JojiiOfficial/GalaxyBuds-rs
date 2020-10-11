@@ -1,4 +1,4 @@
-use super::{ids, Msg};
+use super::{ids, Payload};
 
 #[derive(Debug)]
 pub struct VoicewakeUpListeningStatus {
@@ -11,7 +11,7 @@ pub fn new(arr: &[u8]) -> VoicewakeUpListeningStatus {
     }
 }
 
-impl Msg for VoicewakeUpListeningStatus {
+impl Payload for VoicewakeUpListeningStatus {
     fn get_id(&self) -> u8 {
         ids::VOICE_WAKE_UP_LISTENING_STATUS
     }

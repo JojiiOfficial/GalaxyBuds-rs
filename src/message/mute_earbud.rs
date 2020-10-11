@@ -1,4 +1,4 @@
-use super::{ids, Msg};
+use super::{ids, Payload};
 
 // TODO fix this
 #[derive(Debug)]
@@ -14,7 +14,7 @@ pub fn new(left_muted: bool, right_muted: bool) -> MuteEarbud {
     }
 }
 
-impl Msg for MuteEarbud {
+impl Payload for MuteEarbud {
     fn get_data(&self) -> Vec<u8> {
         vec![self.left_muted.into(), self.right_muted.into()]
     }

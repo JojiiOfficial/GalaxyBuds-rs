@@ -1,5 +1,5 @@
 use super::bud_property::{BudProperty, Placement, Side};
-use super::{ids, Msg};
+use super::{ids, Payload};
 
 #[derive(Debug)]
 pub struct StatusUpdate {
@@ -15,7 +15,7 @@ pub struct StatusUpdate {
     pub battery_case: i8,
 }
 
-pub fn new(arr: &[u8]) -> StatusUpdate {
+pub fn new(arr: Vec<u8>) -> StatusUpdate {
     let placement_left = Placement::value(arr[5], Side::Left);
     let placement_right = Placement::value(arr[5], Side::Right);
 
@@ -33,8 +33,14 @@ pub fn new(arr: &[u8]) -> StatusUpdate {
     }
 }
 
-impl Msg for StatusUpdate {
+impl Payload for StatusUpdate {
     fn get_id(&self) -> u8 {
         ids::STATUS_UPDATED
+    }
+}
+
+impl Into<StatusUpdate> for super::Message {
+    fn into(self) -> StatusUpdate {
+        new(self.data)
     }
 }

@@ -1,6 +1,6 @@
 use super::{
     bud_property::{BudProperty, EqualizerType},
-    ids, simple, Msg,
+    ids, simple, Payload,
 };
 
 #[derive(Debug)]
@@ -28,7 +28,7 @@ pub fn new_response(msg_id: u8, data: u8) -> Simple {
     }
 }
 
-impl Msg for Simple {
+impl Payload for Simple {
     fn get_data(&self) -> Vec<u8> {
         vec![self.data]
     }

@@ -1,5 +1,5 @@
 // Message ID: 145 (-111)
-use super::{ids, Msg};
+use super::{ids, Payload};
 
 #[derive(Debug)]
 pub struct TouchUpdated {
@@ -12,7 +12,7 @@ pub fn new(arr: &[u8]) -> TouchUpdated {
     }
 }
 
-impl Msg for TouchUpdated {
+impl Payload for TouchUpdated {
     fn get_id(&self) -> u8 {
         ids::TOUCH_UPDATED
     }

@@ -1,5 +1,5 @@
 use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
-use super::{ids, Msg};
+use super::{ids, Payload};
 
 const DEVICE_COLOR_BLACK: u8 = 2;
 const DEVICE_COLOR_PINK: u8 = 4;
@@ -56,7 +56,7 @@ pub fn new(arr: &[u8]) -> ExtendedStatusUpdate {
     }
 }
 
-impl Msg for ExtendedStatusUpdate {
+impl Payload for ExtendedStatusUpdate {
     fn get_id(&self) -> u8 {
         ids::EXTENDED_STATUS_UPDATED
     }
