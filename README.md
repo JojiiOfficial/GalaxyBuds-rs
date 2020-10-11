@@ -1,6 +1,16 @@
 # GalaxyBudsLive-rs
 A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can be used to communicate with your earbuds from rust.
 
+#### To use:
+Add this to your Cargo.toml
+```
+galaxy_buds_live_rs = "0.1.2"
+```
+Or if you have `cargo edit`:
+```
+cargo add galaxy_buds_live_rs
+```
+
 # Features
 
 ### Receiving
