@@ -1,4 +1,4 @@
-use super::{ids, Message};
+use super::{ids, Msg};
 
 #[derive(Debug)]
 pub struct LockTouchpad {
@@ -9,7 +9,7 @@ pub fn new(lock: bool) -> LockTouchpad {
     LockTouchpad { lock }
 }
 
-impl Message for LockTouchpad {
+impl Msg for LockTouchpad {
     fn get_data(&self) -> Vec<u8> {
         vec![self.lock.into()]
     }

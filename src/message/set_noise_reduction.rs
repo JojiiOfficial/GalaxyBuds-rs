@@ -1,4 +1,4 @@
-use super::{ids, Message};
+use super::{ids, Msg};
 
 #[derive(Debug)]
 pub struct SetNoiseReduction {
@@ -9,7 +9,7 @@ pub fn new(noise_reduction: bool) -> SetNoiseReduction {
     SetNoiseReduction { noise_reduction }
 }
 
-impl Message for SetNoiseReduction {
+impl Msg for SetNoiseReduction {
     fn get_data(&self) -> Vec<u8> {
         vec![self.noise_reduction.into()]
     }

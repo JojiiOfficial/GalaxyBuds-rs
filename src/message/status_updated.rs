@@ -1,6 +1,5 @@
-// Message ID: 96
-
 use super::bud_property::{BudProperty, Placement, Side};
+use super::{ids, Msg};
 
 #[derive(Debug)]
 pub struct StatusUpdate {
@@ -31,5 +30,11 @@ pub fn new(arr: &[u8]) -> StatusUpdate {
         wearing_left: placement_left == Placement::Ear,
         wearing_right: placement_right == Placement::Ear,
         battery_case: arr[6] as i8,
+    }
+}
+
+impl Msg for StatusUpdate {
+    fn get_id(&self) -> u8 {
+        ids::STATUS_UPDATED
     }
 }

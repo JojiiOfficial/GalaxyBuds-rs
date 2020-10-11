@@ -7,33 +7,98 @@ pub mod mute_earbud;
 pub mod response;
 pub mod set_noise_reduction;
 pub mod simple;
-pub mod simple_helper;
 pub mod status_updated;
 pub mod touch_updated;
 pub mod voice_wakeup_listening_status;
 
-use crate::utils::{byteutil, crc16};
+use crate::utils::{self, byteutil, crc16};
 
+/// End of message
 pub const EOM: u8 = 221;
+/// Begin of message
+pub const BOM: u8 = 253;
 
-pub trait Message {
+/// Message contains the data of a message and
+/// its into a `msg` trait implementing parsed
+/// payload. In addition it contains some nice
+/// functions which are dependend on the data
+pub struct Message<T>
+where
+    T: Msg,
+{
+    // the data of a message
+    data: Vec<u8>,
+
+    // the parsed message
+    msg: T,
+}
+
+/// Msg defines the trait which need to be
+/// implemented by an inner message (msg).
+pub trait Msg {
     fn get_id(&self) -> u8;
-
-    fn is_response(&self) -> bool {
-        false
-    }
-
-    fn is_fragment(&self) -> bool {
-        false
-    }
 
     fn get_data(&self) -> Vec<u8> {
         vec![]
     }
 
-    fn to_byte_array(&self) -> Vec<u8> {
-        let b = Self::get_id(&self);
-        let data = Self::get_data(self);
+    fn is_response(&self) -> bool {
+        false
+    }
+}
+
+impl<T> Message<T>
+where
+    T: Msg,
+{
+    /// Get the payload length of the message
+    pub fn get_payload_length(&self) -> i32 {
+        self.get_u8() & 1023
+    }
+
+    /// Check whether the message is a fragment or not. Fragments seem
+    /// only to be used in Fota messages
+    pub fn is_fragment(&self) -> bool {
+        self.get_u8() & 8192 != 0
+    }
+
+    /// Checks if a message is a response
+    pub fn is_response(&self) -> bool {
+        (self.get_u8() & 4096) != 0
+    }
+
+    /// Return the header of the message
+    pub fn get_u8(&self) -> i32 {
+        (byteutil::to_u8(self.data[2]) << 8) + byteutil::to_u8(self.data[1])
+    }
+
+    /// Get the payload start index of the messages data
+    pub fn get_payload_start_index() -> i32 {
+        3
+    }
+
+    /// Verify that the message is correctly received using
+    /// the last 2 bytes of the message as crc checksum
+    fn check_crc(&self) -> bool {
+        if self.data.len() < 2 {
+            return false;
+        }
+
+        let mut arr: Vec<u8> = self.data.clone().into();
+        let l = arr.len();
+
+        let b = arr[arr.len() - 1];
+        arr[l - 1] = arr[arr.len() - 2];
+        arr[l - 2] = b;
+
+        true
+    }
+
+    /// Create a message byte array from a message. This
+    /// is required to send a message to the buds.
+    pub fn to_byte_array(&self) -> Vec<u8> {
+        let b = T::get_id(&self.msg);
+        let data = T::get_data(&self.msg);
 
         let i = {
             if data.len() > 0 {
@@ -47,7 +112,7 @@ pub trait Message {
         let i3 = i2 + 3 + 1;
 
         let mut b_arr: Vec<u8> = vec![0; i3];
-        b_arr[0] = 253;
+        b_arr[0] = BOM;
         b_arr[i3 - 1 as usize] = EOM;
 
         let create_header = Self::create_header(self, i2 as i32);
@@ -56,18 +121,19 @@ pub trait Message {
 
         let mut b_arr2: Vec<u8> = vec![0; i2];
         b_arr2[0] = b;
-        arraycopy(&data, 0, &mut b_arr2, 1, data.len());
+        utils::array::arraycopy(&data, 0, &mut b_arr2, 1, data.len());
 
         let crc16_ccitt = crc16::crc16_ccitt(&b_arr2, b_arr2.len() - 1);
 
         let barr2_len = b_arr2.len();
         b_arr2[barr2_len - 2] = (crc16_ccitt & 255) as u8;
         b_arr2[barr2_len - 1] = ((crc16_ccitt >> 8) & 255) as u8;
-        arraycopy(&b_arr2, 0, &mut b_arr, 3, b_arr2.len());
+        utils::array::arraycopy(&b_arr2, 0, &mut b_arr, 3, b_arr2.len());
 
         b_arr
     }
 
+    /// Create a header for the message
     fn create_header(&self, i: i32) -> [u8; 2] {
         let mut from_short = byteutil::from_short(i & 1023);
 
@@ -75,28 +141,13 @@ pub trait Message {
             from_short[1] = from_short[1] | 32;
         }
 
-        if Self::is_response(self) {
+        // use the msg's value here since its only used to send
+        // messages and we want to have control over this
+        // value from msg, not Message
+        if self.msg.is_response() {
             from_short[1] = from_short[1] | 16;
         }
 
         from_short
-    }
-}
-
-pub fn arraycopy<T>(
-    src: &Vec<T>,
-    src_pos: usize,
-    dest: &mut Vec<T>,
-    dest_post: usize,
-    length: usize,
-) where
-    T: Copy + Default,
-{
-    if length + dest_post > dest.len() {
-        dest.resize(length + dest_post, T::default());
-    }
-
-    for i in 0..length {
-        dest[i + dest_post] = src[i + src_pos];
     }
 }
