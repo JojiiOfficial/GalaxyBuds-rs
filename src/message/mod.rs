@@ -2,12 +2,12 @@ pub mod bud_property;
 
 pub mod extended_status_updated;
 pub mod find_my_bud;
-pub mod set_touchpad_option;
 pub mod ids;
 pub mod lock_touchpad;
 pub mod mute_earbud;
 pub mod response;
 pub mod set_noise_reduction;
+pub mod set_touchpad_option;
 pub mod simple;
 pub mod status_updated;
 pub mod touch_updated;
@@ -127,6 +127,11 @@ impl Message {
     /// Return the bytes of the payload within the message
     pub fn get_payload_bytes(&self) -> &[u8] {
         &self.data[Self::get_payload_start_index() + 1..]
+    }
+
+    /// Get the message id
+    pub fn get_id(&self) -> u8 {
+        self.data[3]
     }
 
     /// Verify that the message is correctly received using
