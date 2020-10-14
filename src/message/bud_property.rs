@@ -24,9 +24,7 @@ pub trait BudProperty {
 
     /// Needs to be implemented to send a
     /// property variant inside a msg payload
-    fn encode(&self) -> u8 {
-        0
-    }
+    fn encode(&self) -> u8;
 }
 
 /// The side of an earbud.
@@ -69,6 +67,16 @@ impl BudProperty for Placement {
             3 => Placement::InOpenCase,
             4 => Placement::InCloseCase,
             _ => Placement::Undetected,
+        }
+    }
+
+    fn encode(&self) -> u8 {
+        match *self {
+            Placement::Ear => 1,
+            Placement::Outside => 2,
+            Placement::InOpenCase => 3,
+            Placement::InCloseCase => 4,
+            Placement::Undetected => 0,
         }
     }
 }

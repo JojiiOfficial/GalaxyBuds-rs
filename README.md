@@ -7,7 +7,7 @@ A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can
 #### To use:
 Add this to your Cargo.toml
 ```
-galaxy_buds_live_rs = "0.1.3"
+galaxy_buds_live_rs = "0.1.5"
 ```
 Or if you have `cargo edit`:
 ```
