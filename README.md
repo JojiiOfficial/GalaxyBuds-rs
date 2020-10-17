@@ -3,6 +3,7 @@
 ![PRs](https://img.shields.io/badge/PRs-welcome-56cc14?style=flat-square)
 
 A reverse engineered rust wrapper for the GalaxyBudsLive bluetooth protocol. Can be used to communicate with your earbuds from rust.
+You can find a cli tool controlling your Earbuds on linux [here](https://github.com/JojiiOfficial/LiveBudsCli)
 
 #### To use:
 Add this to your Cargo.toml
