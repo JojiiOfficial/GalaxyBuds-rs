@@ -145,7 +145,7 @@ impl BudProperty for EqualizerType {
     fn encode(&self) -> u8 {
         match *self {
             EqualizerType::Normal => 0,
-            EqualizerType::BassBoost => 2,
+            EqualizerType::BassBoost => 1,
             EqualizerType::Soft => 2,
             EqualizerType::Dynamic => 3,
             EqualizerType::Clear => 4,
