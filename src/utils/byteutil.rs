@@ -28,3 +28,16 @@ pub fn as_batt2(byte: i16) -> f64 {
         float
     }
 }
+
+pub fn to_serial_number(arr: &[u8], offset: usize) -> String {
+    let mut sn_arr: [u8; 11] = [0; 11];
+
+    for i in 0..11 {
+        sn_arr[i] = arr[i + offset];
+        if sn_arr[i] == 0 {
+            return "".to_string();
+        }
+    }
+
+    String::from_utf8(sn_arr.into()).unwrap_or_default()
+}

@@ -102,9 +102,31 @@ impl GetAllData {
     }
 }
 
-// Allow parsing Message to a StatusUpdate
+// Allow parsing Message to a GetAllData
 impl Into<GetAllData> for super::Message {
     fn into(self) -> GetAllData {
         GetAllData::new(self.get_payload_bytes())
+    }
+}
+
+#[derive(Debug)]
+pub struct SerialNumber {
+    serial_number_left: String,
+    serial_number_right: String,
+}
+
+impl SerialNumber {
+    pub fn new(arr: &[u8]) -> Self {
+        SerialNumber {
+            serial_number_left: byteutil::to_serial_number(&arr, 0),
+            serial_number_right: byteutil::to_serial_number(&arr, 11),
+        }
+    }
+}
+
+// Allow parsing Message to a SerialNumber
+impl Into<SerialNumber> for super::Message {
+    fn into(self) -> SerialNumber {
+        SerialNumber::new(self.get_payload_bytes())
     }
 }
