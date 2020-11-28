@@ -38,46 +38,66 @@ impl Payload for Debug {
 pub struct GetAllData {
     msg_version: u8,
     revision: u8,
+    hw_version: String,
     bt_address_right: String,
     bt_address_left: String,
-    proxymity_left: i16,
-    proxymity_left_offset: i16,
-    proxymity_right: i16,
-    proxymity_right_offset: i16,
-    battery_left_0: u8,
-    battery_left_1: u8,
-    battery_left_2: u8,
-    battery_right_0: u8,
-    battery_right_1: u8,
-    battery_right_2: u8,
+    proximity_left: i16,
+    proximity_left_offset: i16,
+    proximity_right: i16,
+    proximity_right_offset: i16,
+    thermistor_left: f64,
+    thermistor_right: f64,
+    battery_left_0: i16,
+    battery_left_1: f64,
+    battery_left_2: f64,
+    battery_right_0: i16,
+    battery_right_1: f64,
+    battery_right_2: f64,
+    gyro_left_0: i16,
+    gyro_left_1: i16,
+    gyro_left_2: i16,
+    gyro_right_0: i16,
+    gyro_right_1: i16,
+    gyro_right_2: i16,
     cradle_batt_left: u8,
     cradle_batt_right: u8,
-    has_gyro: bool,
 }
 
 impl GetAllData {
     pub fn new(arr: &[u8]) -> Self {
-        let buff = ByteBuff::new(&arr);
+        let buff = ByteBuff::new(arr);
 
-        // 18
+        let hw_version = {
+            let buff1 = buff.get(1);
+            format!("rev{}{}", (buff1 & 240) >> 4, buff1 & 15).to_string()
+        };
+
         Self {
             msg_version: buff.get(0),
             revision: (buff.get(1) & 240) >> 4,
+            hw_version,
             bt_address_left: buff.get_hex_str(6, 6).to_uppercase(),
             bt_address_right: buff.get_hex_str(12, 6).to_uppercase(),
-            proxymity_left: buff.get_short(20),
-            proxymity_left_offset: buff.get_short(22),
-            proxymity_right: buff.get_short(24),
-            proxymity_right_offset: buff.get_short(26),
-            battery_left_0: arr[20],
-            battery_left_1: arr[21],
-            battery_left_2: arr[22],
-            battery_right_0: arr[23],
-            battery_right_1: arr[24],
-            battery_right_2: arr[25],
-            cradle_batt_left: buff.get(74),
-            cradle_batt_right: buff.get(75),
-            has_gyro: arr[0] >= 0,
+            proximity_left: buff.get_short(30),
+            proximity_left_offset: buff.get_short(32),
+            proximity_right: buff.get_short(34),
+            proximity_right_offset: buff.get_short(36),
+            thermistor_left: buff.get_short(38) as f64 * 0.1,
+            thermistor_right: buff.get_short(40) as f64 * 0.1,
+            battery_left_0: buff.get_short(42),
+            battery_left_1: buff.get_short(44) as f64 * 0.01,
+            battery_left_2: byteutil::as_batt2(buff.get_short(46)),
+            battery_right_0: buff.get_short(48),
+            battery_right_1: buff.get_short(50) as f64 * 0.01,
+            battery_right_2: byteutil::as_batt2(buff.get_short(52)),
+            cradle_batt_left: buff.get(82),
+            cradle_batt_right: buff.get(83),
+            gyro_left_0: buff.get_short(84),
+            gyro_left_1: buff.get_short(86),
+            gyro_left_2: buff.get_short(88),
+            gyro_right_0: buff.get_short(90),
+            gyro_right_1: buff.get_short(92),
+            gyro_right_2: buff.get_short(94),
         }
     }
 }

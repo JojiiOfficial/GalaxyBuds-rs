@@ -17,3 +17,14 @@ pub fn from_short(i: i32) -> [u8; 2] {
 pub fn to_short(arr: &[u8], offset: usize) -> i16 {
     ((arr[offset] as i16 & 0xFF) << 8) | (arr[offset + 1] as i16 & 0xFF)
 }
+
+pub fn as_batt2(byte: i16) -> f64 {
+    let float = byte as f64 * 1.0E-4;
+    let formatted = format!("{}", float);
+
+    if formatted.len() > 6 {
+        formatted[0..6].to_string().parse::<f64>().unwrap_or(float)
+    } else {
+        float
+    }
+}
