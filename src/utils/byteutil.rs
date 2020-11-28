@@ -15,7 +15,7 @@ pub fn from_short(i: i32) -> [u8; 2] {
 }
 
 pub fn to_short(arr: &[u8], offset: usize) -> i16 {
-    ((arr[offset] as i16 & 0xFF) << 8) | (arr[offset + 1] as i16 & 0xFF)
+    ((arr[offset + 1] as i16 & 0xFF) << 8) | (arr[offset] as i16 & 0xFF)
 }
 
 pub fn calc_current(byte: i16) -> f64 {
