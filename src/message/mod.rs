@@ -137,7 +137,7 @@ impl Message {
 
     /// Verify that the message is correctly received using
     /// the last 2 bytes of the message as crc checksum
-    fn check_crc(&self) -> bool {
+    pub fn check_crc(&self) -> bool {
         if self.data.len() < 2 {
             return false;
         }
