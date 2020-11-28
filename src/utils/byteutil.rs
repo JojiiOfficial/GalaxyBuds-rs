@@ -29,11 +29,11 @@ pub fn as_batt2(byte: i16) -> f64 {
     }
 }
 
-pub fn to_serial_number(arr: &[u8], offset: usize) -> String {
-    let mut sn_arr: [u8; 11] = [0; 11];
+pub fn to_serial_number(arr: &[u8], offset: usize, len: usize) -> String {
+    let mut sn_arr: Vec<u8> = Vec::new();
 
-    for i in 0..11 {
-        sn_arr[i] = arr[i + offset];
+    for i in 0..len {
+        sn_arr.push(arr[i + offset]);
         if sn_arr[i] == 0 {
             return "".to_string();
         }

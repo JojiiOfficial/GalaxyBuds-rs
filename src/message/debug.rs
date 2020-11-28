@@ -118,8 +118,8 @@ pub struct SerialNumber {
 impl SerialNumber {
     pub fn new(arr: &[u8]) -> Self {
         SerialNumber {
-            serial_number_left: byteutil::to_serial_number(&arr, 0),
-            serial_number_right: byteutil::to_serial_number(&arr, 11),
+            serial_number_left: byteutil::to_serial_number(&arr, 0, 11),
+            serial_number_right: byteutil::to_serial_number(&arr, 11, 11),
         }
     }
 }
@@ -128,5 +128,27 @@ impl SerialNumber {
 impl Into<SerialNumber> for super::Message {
     fn into(self) -> SerialNumber {
         SerialNumber::new(self.get_payload_bytes())
+    }
+}
+
+#[derive(Debug)]
+pub struct Sku {
+    sku_left: String,
+    sku_right: String,
+}
+
+impl Sku {
+    pub fn new(arr: &[u8]) -> Self {
+        Sku {
+            sku_left: byteutil::to_serial_number(&arr, 0, 14),
+            sku_right: byteutil::to_serial_number(&arr, 14, 14),
+        }
+    }
+}
+
+// Allow parsing Message to a SerialNumber
+impl Into<Sku> for super::Message {
+    fn into(self) -> Sku {
+        Sku::new(self.get_payload_bytes())
     }
 }
