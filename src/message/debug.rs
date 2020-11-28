@@ -4,9 +4,7 @@ use super::{bytebuff::ByteBuff, ids, utils::byteutil, Payload};
 pub enum DebugVariant {
     SerialNumber,
     GetAllData,
-    BuildInfo,
     Sku,
-    PeRssi,
 }
 
 /// Debug
@@ -29,7 +27,6 @@ impl Payload for Debug {
             DebugVariant::SerialNumber => ids::DEBUG_SERIAL_NUMBER,
             DebugVariant::GetAllData => ids::DEBUG_GET_ALL_DATA,
             DebugVariant::Sku => ids::DEBUG_SKU,
-            _ => 0,
         }
     }
 }
