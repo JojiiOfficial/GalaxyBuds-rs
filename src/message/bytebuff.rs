@@ -20,6 +20,11 @@ impl<'a> ByteBuff<'a> {
         byteutil::to_short(&self.data, offset)
     }
 
+    // Get a bool value at the given offset
+    pub fn get_bool(&self, offset: usize) -> bool {
+        self.data[offset] == 1
+    }
+
     pub fn get_hex_str(&self, offset: usize, len: usize) -> String {
         let mut s = String::new();
 

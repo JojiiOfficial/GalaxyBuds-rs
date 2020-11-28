@@ -18,7 +18,7 @@ pub fn to_short(arr: &[u8], offset: usize) -> i16 {
     ((arr[offset] as i16 & 0xFF) << 8) | (arr[offset + 1] as i16 & 0xFF)
 }
 
-pub fn as_batt2(byte: i16) -> f64 {
+pub fn calc_current(byte: i16) -> f64 {
     let float = byte as f64 * 1.0E-4;
     let formatted = format!("{}", float);
 

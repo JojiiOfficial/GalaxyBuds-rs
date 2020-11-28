@@ -1,5 +1,7 @@
+use super::bytebuff::ByteBuff;
+
 use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
-use super::{ids, Payload};
+use super::{ids, utils::byteutil, Payload};
 
 const DEVICE_COLOR_BLACK: u8 = 2;
 const DEVICE_COLOR_PINK: u8 = 4;
@@ -28,31 +30,35 @@ pub struct ExtendedStatusUpdate {
     pub touchpad_option_right: TouchpadOption,
     pub noise_reduction: bool,
     pub voice_wake_up: bool,
+    pub color: i16,
 }
 
 pub fn new(arr: &[u8]) -> ExtendedStatusUpdate {
-    let placement_left = Placement::value(arr[6], Side::Left);
-    let placement_right = Placement::value(arr[6], Side::Right);
+    let buff = ByteBuff::new(&arr);
+
+    let placement_left = Placement::value(buff.get(6), Side::Left);
+    let placement_right = Placement::value(buff.get(6), Side::Right);
 
     ExtendedStatusUpdate {
-        revision: arr[0],
-        ear_type: arr[1],
-        battery_left: arr[2] as i8,
-        battery_right: arr[3] as i8,
-        coupled: arr[4] == 1,
-        primary_earbud: Side::from(arr[5] == 1),
+        revision: buff.get(0),
+        ear_type: buff.get(1),
+        battery_left: buff.get(2) as i8,
+        battery_right: buff.get(3) as i8,
+        coupled: buff.get_bool(4),
+        primary_earbud: Side::from(buff.get_bool(5)),
         placement_left,
         placement_right,
         wearing_left: placement_left == Placement::Ear,
         wearing_right: placement_right == Placement::Ear,
         battery_case: arr[7] as i8,
-        adjust_sound_sync: arr[8] == 1,
-        equalizer_type: EqualizerType::decode(arr[9]),
+        adjust_sound_sync: buff.get_bool(8),
+        equalizer_type: EqualizerType::decode(buff.get(9)),
         touchpads_blocked: arr[10] == 1,
-        touchpad_option_left: TouchpadOption::value(arr[11], Side::Left),
-        touchpad_option_right: TouchpadOption::value(arr[11], Side::Right),
-        noise_reduction: arr[12] == 1,
-        voice_wake_up: arr[13] == 1,
+        touchpad_option_left: TouchpadOption::value(buff.get(11), Side::Left),
+        touchpad_option_right: TouchpadOption::value(buff.get(11), Side::Right),
+        noise_reduction: buff.get_bool(12),
+        voice_wake_up: buff.get_bool(13),
+        color: buff.get_short(14),
     }
 }
 
