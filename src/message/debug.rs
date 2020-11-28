@@ -72,7 +72,7 @@ impl GetAllData {
 
         let hw_version = {
             let buff1 = buff.get(1);
-            format!("rev{}{}", (buff1 & 240) >> 4, buff1 & 15).to_string()
+            format!("rev{}{}", (buff1 & 240) >> 4, buff1 & 15)
         };
 
         Self {

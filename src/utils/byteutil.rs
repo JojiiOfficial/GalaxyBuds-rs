@@ -39,5 +39,5 @@ pub fn to_serial_number(arr: &[u8], offset: usize, len: usize) -> String {
         }
     }
 
-    String::from_utf8(sn_arr.into()).unwrap_or_default()
+    String::from_utf8(sn_arr).unwrap_or_default()
 }

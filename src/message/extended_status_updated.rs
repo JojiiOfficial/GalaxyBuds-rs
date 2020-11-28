@@ -1,7 +1,7 @@
 use super::bytebuff::ByteBuff;
 
 use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
-use super::{ids, utils::byteutil, Payload};
+use super::{ids, Payload};
 
 const DEVICE_COLOR_BLACK: u8 = 2;
 const DEVICE_COLOR_PINK: u8 = 4;
