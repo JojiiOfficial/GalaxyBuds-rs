@@ -1,4 +1,10 @@
-use super::{bytebuff::ByteBuff, ids, utils::byteutil, Payload};
+use super::{
+    bud_property::{match_site, Side},
+    bytebuff::ByteBuff,
+    ids,
+    utils::byteutil,
+    Payload,
+};
 
 #[derive(Debug, Copy, Clone)]
 pub enum DebugVariant {
@@ -33,31 +39,31 @@ impl Payload for Debug {
 
 #[derive(Debug)]
 pub struct GetAllData {
-    msg_version: u8,
-    revision: u8,
-    hw_version: String,
-    bt_address_right: String,
-    bt_address_left: String,
-    proximity_left: i16,
-    proximity_left_offset: i16,
-    proximity_right: i16,
-    proximity_right_offset: i16,
-    thermistor_left: f32,
-    thermistor_right: f32,
-    adc_soc_left: i16,
-    adc_vcell_left: f32,
-    adc_current_left: f64,
-    adc_soc_right: i16,
-    adc_vcell_right: f32,
-    adc_current_right: f64,
-    gyro_left_x: i16,
-    gyro_left_y: i16,
-    gyro_left_z: i16,
-    gyro_right_x: i16,
-    gyro_right_y: i16,
-    gyro_right_z: i16,
-    cradle_batt_left: u8,
-    cradle_batt_right: u8,
+    pub msg_version: u8,
+    pub revision: u8,
+    pub hw_version: String,
+    pub bt_address_right: String,
+    pub bt_address_left: String,
+    pub proximity_left: i16,
+    pub proximity_left_offset: i16,
+    pub proximity_right: i16,
+    pub proximity_right_offset: i16,
+    pub thermistor_left: f32,
+    pub thermistor_right: f32,
+    pub adc_soc_left: i16,
+    pub adc_vcell_left: f32,
+    pub adc_current_left: f64,
+    pub adc_soc_right: i16,
+    pub adc_vcell_right: f32,
+    pub adc_current_right: f64,
+    pub gyro_left_x: i16,
+    pub gyro_left_y: i16,
+    pub gyro_left_z: i16,
+    pub gyro_right_x: i16,
+    pub gyro_right_y: i16,
+    pub gyro_right_z: i16,
+    pub cradle_batt_left: u8,
+    pub cradle_batt_right: u8,
 }
 
 impl GetAllData {
@@ -82,10 +88,10 @@ impl GetAllData {
             thermistor_left: buff.get_short(38) as f32 * 0.1_f32,
             thermistor_right: buff.get_short(40) as f32 * 0.1_f32,
             adc_soc_left: buff.get_short(42),
-            adc_vcell_left: (buff.get_short(44) as f32 * 0.01).floor(),
+            adc_vcell_left: buff.get_short(44) as f32 * 0.01,
             adc_current_left: byteutil::calc_current(buff.get_short(46)),
             adc_soc_right: buff.get_short(48),
-            adc_vcell_right: (buff.get_short(50) as f32 * 0.01).floor(),
+            adc_vcell_right: buff.get_short(50) as f32 * 0.01,
             adc_current_right: byteutil::calc_current(buff.get_short(52)),
             cradle_batt_left: buff.get(82),
             cradle_batt_right: buff.get(83),
@@ -96,6 +102,65 @@ impl GetAllData {
             gyro_right_y: buff.get_short(92),
             gyro_right_z: buff.get_short(94),
         }
+    }
+
+    // Return the bluetooth address of the given bud
+    pub fn get_bt_address(&self, side: Side) -> &str {
+        match_site(&self.bt_address_left, &self.bt_address_right, side)
+    }
+
+    // Get the proximity
+    pub fn get_proximity(&self, side: Side) -> i16 {
+        match_site(self.proximity_left, self.proximity_right, side)
+    }
+
+    // Get the proximity_offset
+    pub fn get_proximity_offset(&self, side: Side) -> i16 {
+        match_site(
+            self.proximity_left_offset,
+            self.proximity_right_offset,
+            side,
+        )
+    }
+
+    // Get thermistor
+    pub fn get_thermistor(&self, side: Side) -> f32 {
+        match_site(self.thermistor_left, self.thermistor_right, side)
+    }
+
+    // Get Adc SOC
+    pub fn get_adc_soc(&self, side: Side) -> i16 {
+        match_site(self.adc_soc_left, self.adc_soc_right, side)
+    }
+
+    // Get Adc vcell
+    pub fn get_adc_vcell(&self, side: Side) -> f32 {
+        match_site(self.adc_vcell_left, self.adc_vcell_right, side)
+    }
+
+    // Get Adc current
+    pub fn get_adc_current(&self, side: Side) -> f64 {
+        match_site(self.adc_current_left, self.adc_current_right, side)
+    }
+
+    // Get cradle battery
+    pub fn get_cradle_battery(&self, side: Side) -> u8 {
+        match_site(self.cradle_batt_left, self.cradle_batt_right, side)
+    }
+
+    // Get gyro x
+    pub fn get_gyro_x(&self, side: Side) -> i16 {
+        match_site(self.gyro_left_x, self.gyro_right_x, side)
+    }
+
+    // Get gyro y
+    pub fn get_gyro_y(&self, side: Side) -> i16 {
+        match_site(self.gyro_left_y, self.gyro_right_y, side)
+    }
+
+    // Get gyro z
+    pub fn get_gyro_z(&self, side: Side) -> i16 {
+        match_site(self.gyro_left_z, self.gyro_right_z, side)
     }
 }
 

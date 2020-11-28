@@ -44,6 +44,14 @@ impl From<bool> for Side {
     }
 }
 
+// Helper func to match with ease
+pub fn match_site<T>(left: T, right: T, side: Side) -> T {
+    match side {
+        Side::Left => left,
+        Side::Right => right,
+    }
+}
+
 /// Where an earbud is placed in the
 /// physical real life world
 #[derive(Debug, PartialEq, Copy, Clone)]
