@@ -11,7 +11,9 @@ pub fn arraycopy<T>(
         dest.resize(length + dest_post, T::default());
     }
 
-    for i in 0..length {
-        dest[i + dest_post] = src[i + src_pos];
-    }
+    dest[dest_post..(length + dest_post)].clone_from_slice(&src[src_pos..(length + src_pos)]);
+
+    /* for i in 0..length { */
+    /* dest[i + dest_post] = src[i + src_pos]; */
+    /* } */
 }

@@ -25,7 +25,8 @@ pub fn crc16_ccitt(barr: &Vec<u8>, i: usize) -> i32 {
     for i3 in 0..i - 1 {
         i2 = CRC16TAB[(((i2 >> 8) ^ barr[i3 as usize] as i32) & 255) as usize] ^ (i2 << 8);
     }
-    return 65535 & i2;
+
+    65535 & i2
 }
 
 pub fn crc16_ccitt2(barr: &Vec<u8>, i: usize, i2: usize) -> i32 {
@@ -34,7 +35,7 @@ pub fn crc16_ccitt2(barr: &Vec<u8>, i: usize, i2: usize) -> i32 {
 
     while i < i2 {
         i3 = CRC16TAB[(((i3 >> 8) ^ barr[i] as i32) & 255) as usize] ^ (i3 << 8);
-        i = i + 1;
+        i += 1;
     }
 
     65535 & i3

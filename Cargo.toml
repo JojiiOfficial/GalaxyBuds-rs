@@ -10,5 +10,5 @@ repository = "https://github.com/JojiiOfficial/GalaxyBudsLive-rs"
 description = "The Galaxy Buds live bluetooth protocol reverse engineered"
 
 [dependencies]
-async-std = "1.6.5"
-bluetooth-serial-port-async = "0.6.0"
+async-std = "1.7.0"
+bluetooth-serial-port-async = "0.6.1"

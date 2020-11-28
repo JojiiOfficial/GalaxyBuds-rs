@@ -1,4 +1,5 @@
 pub mod bud_property;
+pub mod debug;
 
 pub mod extended_status_updated;
 pub mod find_my_bud;
@@ -85,7 +86,7 @@ pub trait Payload {
         // messages and we want to have control over this
         // value from msg, not Message
         if self.is_response() {
-            from_short[1] = from_short[1] | 16;
+            from_short[1] |= 16;
         }
 
         from_short
@@ -95,7 +96,7 @@ pub trait Payload {
 impl Message {
     /// Create a new message object from read data
     pub fn new<I: Into<Vec<u8>>>(data: I) -> Message {
-        return Message { data: data.into() };
+        Message { data: data.into() }
     }
 
     /// Get the payload length of the message
@@ -141,7 +142,7 @@ impl Message {
             return false;
         }
 
-        let mut arr: Vec<u8> = self.data.clone().into();
+        let mut arr: Vec<u8> = self.data.clone();
         let l = arr.len();
 
         let b = arr[arr.len() - 1];
