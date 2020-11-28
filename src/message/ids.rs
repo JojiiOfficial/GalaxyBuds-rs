@@ -1,6 +1,6 @@
 pub const ADJUST_SOUND_SYNC: u8 = 133;
 pub const CHECK_THE_FIT_OF_EARBUDS: u8 = 157;
-pub const CHECK_THE_FIT_OF_EARBUDS_REUSLT: u8 = 158;
+pub const CHECK_THE_FIT_OF_EARBUDS_RESULT: u8 = 158;
 pub const DEBUG_GET_ALL_DATA: u8 = 38;
 pub const DEBUG_SERIAL_NUMBER: u8 = 41;
 pub const DEBUG_SKU: u8 = 34;

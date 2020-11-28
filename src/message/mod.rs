@@ -1,6 +1,7 @@
 pub mod bud_property;
 mod bytebuff;
 pub mod debug;
+pub mod fit_check;
 
 pub mod extended_status_updated;
 pub mod find_my_bud;
