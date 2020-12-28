@@ -1,3 +1,5 @@
+use crate::model::Model;
+
 use super::{
     bud_property::{match_site, Side},
     bytebuff::ByteBuff,
@@ -67,13 +69,17 @@ pub struct GetAllData {
 }
 
 impl GetAllData {
-    pub fn new(arr: &[u8]) -> Self {
+    pub fn new(arr: &[u8], model: Model) -> Self {
         let buff = ByteBuff::new(arr);
 
         let hw_version = {
             let buff1 = buff.get(1);
             format!("rev{}{}", (buff1 & 240) >> 4, buff1 & 15)
         };
+
+        if model == Model::Buds {
+            unimplemented!();
+        }
 
         Self {
             msg_version: buff.get(0),
@@ -167,7 +173,7 @@ impl GetAllData {
 // Allow parsing Message to a GetAllData
 impl Into<GetAllData> for super::Message {
     fn into(self) -> GetAllData {
-        GetAllData::new(self.get_payload_bytes())
+        GetAllData::new(self.get_payload_bytes(), self.model)
     }
 }
 

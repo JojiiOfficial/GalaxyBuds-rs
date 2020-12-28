@@ -1,3 +1,5 @@
+use crate::model::Model;
+
 use super::bytebuff::ByteBuff;
 
 use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
@@ -33,32 +35,57 @@ pub struct ExtendedStatusUpdate {
     pub color: i16,
 }
 
-pub fn new(arr: &[u8]) -> ExtendedStatusUpdate {
+pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
     let buff = ByteBuff::new(&arr);
 
     let placement_left = Placement::value(buff.get(6), Side::Left);
     let placement_right = Placement::value(buff.get(6), Side::Right);
 
-    ExtendedStatusUpdate {
-        revision: buff.get(0),
-        ear_type: buff.get(1),
-        battery_left: buff.get(2) as i8,
-        battery_right: buff.get(3) as i8,
-        coupled: buff.get_bool(4),
-        primary_earbud: Side::from(buff.get_bool(5)),
-        placement_left,
-        placement_right,
-        wearing_left: placement_left == Placement::Ear,
-        wearing_right: placement_right == Placement::Ear,
-        battery_case: arr[7] as i8,
-        adjust_sound_sync: buff.get_bool(8),
-        equalizer_type: EqualizerType::decode(buff.get(9)),
-        touchpads_blocked: arr[10] == 1,
-        touchpad_option_left: TouchpadOption::value(buff.get(11), Side::Left),
-        touchpad_option_right: TouchpadOption::value(buff.get(11), Side::Right),
-        noise_reduction: buff.get_bool(12),
-        voice_wake_up: buff.get_bool(13),
-        color: buff.get_short(14),
+    match model {
+        Model::BudsLive => ExtendedStatusUpdate {
+            revision: buff.get(0),
+            ear_type: buff.get(1),
+            battery_left: buff.get(2) as i8,
+            battery_right: buff.get(3) as i8,
+            coupled: buff.get_bool(4),
+            primary_earbud: Side::from(buff.get_bool(5)),
+            placement_left,
+            placement_right,
+            wearing_left: placement_left == Placement::Ear,
+            wearing_right: placement_right == Placement::Ear,
+            battery_case: buff.get(7) as i8,
+            adjust_sound_sync: buff.get_bool(8),
+            equalizer_type: EqualizerType::decode(buff.get(9)),
+            touchpads_blocked: buff.get_bool(10),
+            touchpad_option_left: TouchpadOption::value(buff.get(11), Side::Left),
+            touchpad_option_right: TouchpadOption::value(buff.get(11), Side::Right),
+            noise_reduction: buff.get_bool(12),
+            voice_wake_up: buff.get_bool(13),
+            color: buff.get_short(14),
+        },
+
+        Model::BudsPlus => ExtendedStatusUpdate {
+            revision: buff.get(0),
+            ear_type: buff.get(1),
+            battery_left: buff.get(2) as i8,
+            battery_right: buff.get(3) as i8,
+            coupled: buff.get_bool(4),
+            primary_earbud: Side::from(buff.get_bool(5)),
+            placement_left,
+            placement_right,
+            wearing_left: placement_left == Placement::Ear,
+            wearing_right: placement_right == Placement::Ear,
+            battery_case: buff.get(7) as i8,
+            adjust_sound_sync: buff.get_bool(8),
+            equalizer_type: EqualizerType::decode(buff.get(11)),
+            touchpads_blocked: buff.get_bool(12),
+            touchpad_option_left: TouchpadOption::value(buff.get(13), Side::Left),
+            touchpad_option_right: TouchpadOption::value(buff.get(13), Side::Right),
+            color: buff.get_short(14),
+            voice_wake_up: false,
+            noise_reduction: false,
+        },
+        _ => unimplemented!(),
     }
 }
 
@@ -71,6 +98,6 @@ impl Payload for ExtendedStatusUpdate {
 /// Allow parsing a Message to an ExtendedStatusUpdate
 impl Into<ExtendedStatusUpdate> for super::Message {
     fn into(self) -> ExtendedStatusUpdate {
-        new(self.get_payload_bytes())
+        new(self.get_payload_bytes(), self.model)
     }
 }

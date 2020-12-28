@@ -17,7 +17,10 @@ pub mod touch_updated;
 pub mod touchpad_action;
 pub mod voice_wakeup_listening_status;
 
-use crate::utils::{self, byteutil, crc16};
+use crate::{
+    model::Model,
+    utils::{self, byteutil, crc16},
+};
 
 /// End of message
 pub const EOM: u8 = 221;
@@ -31,6 +34,7 @@ pub const BOM: u8 = 253;
 pub struct Message {
     // the data of the message
     data: Vec<u8>,
+    model: Model,
 }
 
 /// Msg defines the trait which need to be
@@ -97,8 +101,11 @@ pub trait Payload {
 
 impl Message {
     /// Create a new message object from read data
-    pub fn new<I: Into<Vec<u8>>>(data: I) -> Message {
-        Message { data: data.into() }
+    pub fn new<I: Into<Vec<u8>>>(data: I, model: Model) -> Message {
+        Message {
+            data: data.into(),
+            model,
+        }
     }
 
     /// Get the payload length of the message
