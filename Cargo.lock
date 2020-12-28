@@ -274,7 +274,7 @@ dependencies = [
 
 [[package]]
 name = "galaxy_buds_rs"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "async-std",
  "bluetooth-serial-port-async",

@@ -39,7 +39,7 @@ impl Payload for Debug {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct GetAllData {
     pub msg_version: u8,
     pub revision: u8,
@@ -81,7 +81,7 @@ impl GetAllData {
             unimplemented!();
         }
 
-        Self {
+        let mut data = Self {
             msg_version: buff.get(0),
             revision: (buff.get(1) & 240) >> 4,
             hw_version,
@@ -101,13 +101,19 @@ impl GetAllData {
             adc_current_right: byteutil::calc_current(buff.get_short(52)),
             cradle_batt_left: buff.get(82),
             cradle_batt_right: buff.get(83),
-            gyro_left_x: buff.get_short(84),
-            gyro_left_y: buff.get_short(86),
-            gyro_left_z: buff.get_short(88),
-            gyro_right_x: buff.get_short(90),
-            gyro_right_y: buff.get_short(92),
-            gyro_right_z: buff.get_short(94),
+            ..Default::default()
+        };
+
+        if model == Model::BudsLive {
+            data.gyro_left_x = buff.get_short(84);
+            data.gyro_left_y = buff.get_short(86);
+            data.gyro_left_z = buff.get_short(88);
+            data.gyro_right_x = buff.get_short(90);
+            data.gyro_right_y = buff.get_short(92);
+            data.gyro_right_z = buff.get_short(94);
         }
+
+        data
     }
 
     // Return the bluetooth address of the given bud
