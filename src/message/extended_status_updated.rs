@@ -1,6 +1,6 @@
 use crate::model::Model;
 
-use super::bytebuff::ByteBuff;
+use super::{bud_property::AmbientType, bytebuff::ByteBuff};
 
 use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
 use super::{ids, Payload};
@@ -32,7 +32,12 @@ pub struct ExtendedStatusUpdate {
     pub touchpad_option_right: TouchpadOption,
     pub noise_reduction: bool,
     pub voice_wake_up: bool,
-    pub color: i16,
+    pub color_left: i16,
+    pub color_right: i16,
+    pub ambient_sound_enabled: bool,
+    pub ambient_sound_volume: i32,
+    pub extra_high_ambient: bool,
+    pub ambient_mode: AmbientType,
 }
 
 pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
@@ -61,7 +66,12 @@ pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
             touchpad_option_right: TouchpadOption::value(buff.get(11), Side::Right),
             noise_reduction: buff.get_bool(12),
             voice_wake_up: buff.get_bool(13),
-            color: buff.get_short(14),
+            color_left: buff.get_short(14),
+            color_right: buff.get_short(16),
+            ambient_sound_volume: 0,
+            ambient_sound_enabled: false,
+            ambient_mode: AmbientType::Normal,
+            extra_high_ambient: false,
         },
 
         Model::BudsPlus => ExtendedStatusUpdate {
@@ -76,14 +86,25 @@ pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
             wearing_left: placement_left == Placement::Ear,
             wearing_right: placement_right == Placement::Ear,
             battery_case: buff.get(7) as i8,
-            adjust_sound_sync: buff.get_bool(8),
+            adjust_sound_sync: buff.get_bool(10),
             equalizer_type: EqualizerType::decode(buff.get(11)),
             touchpads_blocked: buff.get_bool(12),
             touchpad_option_left: TouchpadOption::value(buff.get(13), Side::Left),
             touchpad_option_right: TouchpadOption::value(buff.get(13), Side::Right),
-            color: buff.get_short(14),
+            color_left: buff.get_short(15),
+            color_right: buff.get_short(17),
             voice_wake_up: false,
             noise_reduction: false,
+            ambient_sound_enabled: buff.get_bool(8),
+            ambient_sound_volume: buff.get(9) as i32,
+            ambient_mode: AmbientType::Normal,
+            extra_high_ambient: {
+                if buff.get(0) >= 9 {
+                    buff.get_bool(19)
+                } else {
+                    false
+                }
+            },
         },
         _ => unimplemented!(),
     }

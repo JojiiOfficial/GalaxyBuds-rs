@@ -97,6 +97,7 @@ pub enum TouchpadOption {
     Volume,
     Spotify,
     Undetected,
+    Custom,
 }
 
 impl BudProperty for TouchpadOption {
@@ -108,6 +109,7 @@ impl BudProperty for TouchpadOption {
             TouchpadOption::NoiseCanceling => 2,
             TouchpadOption::Volume => 3,
             TouchpadOption::Spotify => 4,
+            TouchpadOption::Custom => 5,
             TouchpadOption::Undetected => 0,
         }
     }
@@ -118,6 +120,7 @@ impl BudProperty for TouchpadOption {
             2 => TouchpadOption::NoiseCanceling,
             3 => TouchpadOption::Volume,
             4 => TouchpadOption::Spotify,
+            5 => TouchpadOption::Custom,
             _ => TouchpadOption::Undetected,
         }
     }
@@ -159,6 +162,31 @@ impl BudProperty for EqualizerType {
             EqualizerType::Clear => 4,
             EqualizerType::TrebleBoost => 5,
             EqualizerType::Undetected => 10,
+        }
+    }
+}
+
+/// AmbientType
+#[derive(Debug, PartialEq, Copy, Clone)]
+pub enum AmbientType {
+    Normal,
+    VoiceFocus,
+}
+
+impl BudProperty for AmbientType {
+    type Item = AmbientType;
+
+    fn decode(val: u8) -> AmbientType {
+        match val {
+            1 => AmbientType::VoiceFocus,
+            0 | _ => AmbientType::Normal,
+        }
+    }
+
+    fn encode(&self) -> u8 {
+        match *self {
+            AmbientType::Normal => 0,
+            AmbientType::VoiceFocus => 1,
         }
     }
 }

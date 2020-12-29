@@ -3,6 +3,7 @@ mod bytebuff;
 pub mod debug;
 pub mod fit_check;
 
+pub mod ambient_mode;
 pub mod extended_status_updated;
 pub mod find_my_bud;
 pub mod ids;
