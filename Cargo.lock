@@ -135,9 +135,9 @@ dependencies = [
 
 [[package]]
 name = "bluetooth-serial-port-async"
-version = "0.6.1"
+version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3be2fd0e0b00573e2fb86e1bc590e9f4874d69c268f319108aed96341aaf7e1"
+checksum = "60c2ea2fbe8638ca6c8d456000df6d77d856b18d43c2c96bdd0e338d99b599e8"
 dependencies = [
  "async-std",
  "enum_primitive",
@@ -274,7 +274,7 @@ dependencies = [
 
 [[package]]
 name = "galaxy_buds_rs"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "async-std",
  "bluetooth-serial-port-async",
@@ -429,15 +429,14 @@ dependencies = [
 
 [[package]]
 name = "nix"
-version = "0.13.1"
+version = "0.19.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4dbdc256eaac2e3bd236d93ad999d3479ef775c863dbda3068c4006a92eec51b"
+checksum = "b2ccba0cfe4fdf15982d1674c69b1fd80bad427d293849982668dfe454bd61f2"
 dependencies = [
  "bitflags",
  "cc",
- "cfg-if 0.1.10",
+ "cfg-if 1.0.0",
  "libc",
- "void",
 ]
 
 [[package]]
@@ -551,12 +550,6 @@ name = "vec-arena"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eafc1b9b2dfc6f5529177b62cf806484db55b32dc7c9658a118e11bbeb33061d"
-
-[[package]]
-name = "void"
-version = "1.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6a02e4885ed3bc0f2de90ea6dd45ebcbb66dacffe03547fadbb0eeae2770887d"
 
 [[package]]
 name = "waker-fn"
