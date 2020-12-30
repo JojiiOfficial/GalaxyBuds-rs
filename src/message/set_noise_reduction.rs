@@ -1,7 +1,7 @@
 use super::{ids, Payload};
 
 /// Enable/Disable ANC for your earbuds
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct SetNoiseReduction {
     pub noise_reduction: bool,
 }

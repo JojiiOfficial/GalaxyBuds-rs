@@ -16,7 +16,7 @@ pub enum DebugVariant {
 }
 
 /// Debug
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Debug {
     variant: DebugVariant,
 }
@@ -39,7 +39,7 @@ impl Payload for Debug {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct GetAllData {
     pub msg_version: u8,
     pub revision: u8,
@@ -183,7 +183,7 @@ impl Into<GetAllData> for super::Message {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SerialNumber {
     serial_number_left: String,
     serial_number_right: String,
@@ -205,7 +205,7 @@ impl Into<SerialNumber> for super::Message {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Sku {
     sku_left: String,
     sku_right: String,

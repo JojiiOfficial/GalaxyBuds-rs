@@ -1,7 +1,7 @@
 use super::bud_property::{BudProperty, Placement, Side};
 use super::{ids, Payload};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct StatusUpdate {
     pub revision: u8,
     pub battery_left: i8,

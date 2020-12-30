@@ -1,6 +1,6 @@
 use super::{bud_property, ids, Payload};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct TouchAction {
     pub side: bud_property::Side,
     pub touch_count: u8,

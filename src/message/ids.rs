@@ -61,5 +61,6 @@ pub const VOICE_WAKE_UP_LISTENING_STATUS: u8 = 156;
 pub const AMBIENT_MODE_UPDATED: u8 = 129;
 pub const AMBIENT_VOLUME: u8 = 132;
 pub const AMBIENT_WEARING_STATUS_UPDATED: u8 = 137;
+pub const SET_AMBIENT_MODE: u8 = 128;
 pub const EXTRA_HIGH_AMBIENT: u8 = 150;
 pub const SET_SIDETONE: u8 = 139;

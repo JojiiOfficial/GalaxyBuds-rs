@@ -1,7 +1,7 @@
 use super::{ids, Payload};
 
 /// Lock or unlock the touchpad
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct LockTouchpad {
     pub lock: bool,
 }

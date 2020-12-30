@@ -1,7 +1,7 @@
 use super::{ids, Payload};
 
 /// Enable/Disable ANC for your earbuds
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct SetManagerInfo {
     pub client_type: u8, // WearableApp = 1, others unknow
     pub is_samsung_device: bool,

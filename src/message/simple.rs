@@ -3,7 +3,7 @@ use super::{
     ids, simple, Payload,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Simple {
     pub data: u8,
     msg_id: u8,

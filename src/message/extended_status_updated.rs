@@ -1,18 +1,16 @@
+use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
+use super::{bud_property::AmbientType, bytebuff::ByteBuff};
+use super::{ids, Payload};
 use crate::model::Model;
 
-use super::{bud_property::AmbientType, bytebuff::ByteBuff};
+pub const DEVICE_COLOR_BLACK: u8 = 2;
+pub const DEVICE_COLOR_PINK: u8 = 4;
+pub const DEVICE_COLOR_WHITE: u8 = 0;
+pub const DEVICE_COLOR_YELLOW: u8 = 3;
+pub const TYPE_KERNEL: u8 = 0;
+pub const TYPE_OPEN: u8 = 1;
 
-use super::bud_property::{BudProperty, EqualizerType, Placement, Side, TouchpadOption};
-use super::{ids, Payload};
-
-const DEVICE_COLOR_BLACK: u8 = 2;
-const DEVICE_COLOR_PINK: u8 = 4;
-const DEVICE_COLOR_WHITE: u8 = 0;
-const DEVICE_COLOR_YELLOW: u8 = 3;
-const TYPE_KERNEL: u8 = 0;
-const TYPE_OPEN: u8 = 1;
-
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct ExtendedStatusUpdate {
     pub revision: u8,
     pub ear_type: u8,

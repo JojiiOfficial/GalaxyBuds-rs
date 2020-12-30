@@ -28,7 +28,7 @@ pub trait BudProperty {
 }
 
 /// The side of an earbud.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Side {
     Left,
     Right,
@@ -179,7 +179,7 @@ impl BudProperty for AmbientType {
     fn decode(val: u8) -> AmbientType {
         match val {
             1 => AmbientType::VoiceFocus,
-            0 | _ => AmbientType::Normal,
+            _ => AmbientType::Normal,
         }
     }
 

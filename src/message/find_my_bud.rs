@@ -4,7 +4,7 @@ use super::{ids, Payload};
 /// set start to true and send the payload to start the
 /// feature. Set start to false and send the payloaod again
 /// to stop it.
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct FindMyBud {
     pub start: bool,
 }

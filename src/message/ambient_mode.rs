@@ -1,7 +1,7 @@
 use super::{ids, Payload};
 
 // Whether the buds enabled the ambient_mode themselves.
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct AmbientModeUpdated {
     pub ambient_mode: bool,
 }
@@ -27,29 +27,54 @@ impl Into<AmbientModeUpdated> for super::Message {
     }
 }
 
-// The ambient volume level
-#[derive(Debug)]
-pub struct AmbientVolume {
-    pub volume: i32,
+// Set the ambient volume level
+#[derive(Debug, Copy, Clone)]
+pub struct SetAmbientVolume {
+    pub new_volume_lvl: u8,
 }
 
-impl AmbientVolume {
-    pub fn new(arr: &[u8]) -> Self {
-        Self {
-            volume: arr[0] as i32,
-        }
+impl SetAmbientVolume {
+    pub fn new(new_volume_lvl: u8) -> Self {
+        Self { new_volume_lvl }
     }
 }
 
-impl Payload for AmbientVolume {
+impl Payload for SetAmbientVolume {
     fn get_id(&self) -> u8 {
         ids::AMBIENT_VOLUME
     }
+
+    fn get_data(&self) -> Vec<u8> {
+        // 1 is lowest, 4 is highest.
+        // However the buds expect it from 0-3.
+        vec![self.new_volume_lvl - 1]
+    }
 }
 
-// Allow parsing Message to a StatusUpdate
-impl Into<AmbientVolume> for super::Message {
-    fn into(self) -> AmbientVolume {
-        AmbientVolume::new(self.get_payload_bytes())
+// Set the ambient mode: enabled or disabled
+#[derive(Debug, Copy, Clone)]
+pub struct SetAmbientMode {
+    pub enabled: bool,
+}
+
+impl SetAmbientMode {
+    pub fn new(enabled: bool) -> Self {
+        Self { enabled }
+    }
+}
+
+impl Payload for SetAmbientMode {
+    fn get_id(&self) -> u8 {
+        ids::SET_AMBIENT_MODE
+    }
+
+    fn get_data(&self) -> Vec<u8> {
+        vec![{
+            if self.enabled {
+                1
+            } else {
+                0
+            }
+        }]
     }
 }

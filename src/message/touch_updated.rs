@@ -1,6 +1,6 @@
 use super::{ids, Payload};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct TouchUpdated {
     pub status: bool,
 }

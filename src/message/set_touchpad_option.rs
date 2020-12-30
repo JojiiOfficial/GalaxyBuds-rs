@@ -4,7 +4,7 @@ use super::{
 };
 
 /// Lock or unlock the touchpad
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct SetTouchpadOption {
     left_option: TouchpadOption,
     right_option: TouchpadOption,

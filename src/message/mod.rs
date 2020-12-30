@@ -34,6 +34,7 @@ pub const BOM: u8 = 253;
 /// its into a `msg` trait implementing parsed
 /// payload. In addition it contains some nice
 /// functions which are dependend on the data
+#[derive(Debug, Clone)]
 pub struct Message {
     // the data of the message
     data: Vec<u8>,

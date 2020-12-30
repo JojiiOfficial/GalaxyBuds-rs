@@ -1,7 +1,7 @@
 use super::{ids, Payload};
 
 // Whether the buds live changed the anc status by a touchpad event
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct AncModeUpdated {
     pub anc_enabled: bool,
 }

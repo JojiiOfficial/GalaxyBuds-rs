@@ -1,6 +1,6 @@
 use super::{ids, Payload};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct VoicewakeUpListeningStatus {
     pub voice_wakeup_listening_status: bool,
 }
