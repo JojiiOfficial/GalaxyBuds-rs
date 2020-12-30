@@ -78,3 +78,31 @@ impl Payload for SetAmbientMode {
         }]
     }
 }
+
+// Set the extra high ambient mode: enabled or disabled
+#[derive(Debug, Copy, Clone)]
+pub struct SetExtraHighVolume {
+    pub enabled: bool,
+}
+
+impl SetExtraHighVolume {
+    pub fn new(enabled: bool) -> Self {
+        Self { enabled }
+    }
+}
+
+impl Payload for SetExtraHighVolume {
+    fn get_id(&self) -> u8 {
+        ids::EXTRA_HIGH_AMBIENT
+    }
+
+    fn get_data(&self) -> Vec<u8> {
+        vec![{
+            if self.enabled {
+                1
+            } else {
+                0
+            }
+        }]
+    }
+}
