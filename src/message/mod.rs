@@ -1,14 +1,15 @@
-pub mod bud_property;
 mod bytebuff;
-pub mod debug;
-pub mod fit_check;
 
 pub mod ambient_mode;
 pub mod anc_updated;
+pub mod bud_property;
+pub mod debug;
 pub mod extended_status_updated;
 pub mod find_my_bud;
+pub mod fit_check;
 pub mod ids;
 pub mod lock_touchpad;
+pub mod manager;
 pub mod mute_earbud;
 pub mod response;
 pub mod set_noise_reduction;
