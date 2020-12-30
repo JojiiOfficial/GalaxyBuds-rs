@@ -4,6 +4,7 @@ pub mod debug;
 pub mod fit_check;
 
 pub mod ambient_mode;
+pub mod anc_updated;
 pub mod extended_status_updated;
 pub mod find_my_bud;
 pub mod ids;
