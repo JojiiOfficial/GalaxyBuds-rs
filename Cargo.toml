@@ -1,6 +1,6 @@
 [package]
 name = "galaxy_buds_rs"
-version = "0.2.6"
+version = "0.2.7"
 authors = ["jojii <jojii@gmx.net>"]
 edition = "2018"
 readme = "README.md"
