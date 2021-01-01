@@ -1,15 +1,20 @@
 #![allow(dead_code)]
-use galaxy_buds_live_rs::message::{self, ids, Message};
+use galaxy_buds_rs::{
+    message::{self, ids, Message},
+    model::Model,
+};
 
 use async_std::io::prelude::*;
 use bluetooth_serial_port_async::{BtAddr, BtProtocol, BtSocket};
-use std::{error::Error, str::FromStr};
+use std::{env, error::Error, str::FromStr};
 
 async fn run() -> Result<(), Box<dyn Error>> {
-    let address = "<Your Buds address here!!>";
+    let address = env::args().nth(1).unwrap();
 
     let mut socket = BtSocket::new(BtProtocol::RFCOMM).unwrap();
-    socket.connect(&BtAddr::from_str(address).unwrap()).unwrap();
+    socket
+        .connect(BtAddr::from_str(address.as_ref()).unwrap())
+        .unwrap();
 
     // Get the stream of the socket. Only call this function
     // once and keep using the stream
@@ -21,7 +26,8 @@ async fn run() -> Result<(), Box<dyn Error>> {
         let buff = &buffer[0..num_bytes_read];
 
         let id = buff[3].to_be();
-        let message = Message::new(buff);
+        let message = Message::new(buff, Model::Buds);
+        println!("{:?}", buff);
 
         if id == 242 {
             continue;
