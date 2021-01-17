@@ -97,6 +97,7 @@ pub enum TouchpadOption {
     Volume,
     Spotify,
     Undetected,
+    Disconnect,
     Custom,
 }
 
@@ -110,6 +111,7 @@ impl BudProperty for TouchpadOption {
             TouchpadOption::Volume => 3,
             TouchpadOption::Spotify => 4,
             TouchpadOption::Custom => 5,
+            TouchpadOption::Disconnect => 6,
             TouchpadOption::Undetected => 0,
         }
     }
@@ -121,6 +123,7 @@ impl BudProperty for TouchpadOption {
             3 => TouchpadOption::Volume,
             4 => TouchpadOption::Spotify,
             5 => TouchpadOption::Custom,
+            6 => TouchpadOption::Disconnect,
             _ => TouchpadOption::Undetected,
         }
     }
