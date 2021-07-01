@@ -39,7 +39,6 @@ pub struct ExtendedStatusUpdate {
 }
 
 pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
-    println!("[!] we have {:?}", model);
     let buff = ByteBuff::new(&arr);
 
     let placement_left = Placement::value(buff.get(6), Side::Left);
