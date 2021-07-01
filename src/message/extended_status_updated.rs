@@ -39,6 +39,7 @@ pub struct ExtendedStatusUpdate {
 }
 
 pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
+    println!("[!] we have {:?}", model);
     let buff = ByteBuff::new(&arr);
 
     let placement_left = Placement::value(buff.get(6), Side::Left);
@@ -104,6 +105,34 @@ pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
                 }
             },
         },
+
+        Model::BudsPro => ExtendedStatusUpdate {
+            revision: buff.get(0),
+            ear_type: buff.get(1),
+            battery_left: buff.get(2) as i8,
+            battery_right: buff.get(3) as i8,
+            coupled: buff.get_bool(4),
+            primary_earbud: Side::from(buff.get_bool(5)),
+            placement_left,
+            placement_right,
+            wearing_left: placement_left == Placement::Ear,
+            wearing_right: placement_right == Placement::Ear,
+            battery_case: buff.get(7) as i8,
+            adjust_sound_sync: buff.get_bool(8),
+            equalizer_type: EqualizerType::decode(buff.get(9)),
+            touchpads_blocked: buff.get_bool(10),
+            touchpad_option_left: TouchpadOption::value(buff.get(11), Side::Left),
+            touchpad_option_right: TouchpadOption::value(buff.get(11), Side::Right),
+            noise_reduction: buff.get_bool(12),
+            voice_wake_up: buff.get_bool(13),
+            color_left: buff.get_short(14),
+            color_right: buff.get_short(16),
+            ambient_sound_volume: 0,
+            ambient_sound_enabled: false,
+            ambient_mode: AmbientType::Normal,
+            extra_high_ambient: false,
+        },
+
         _ => unimplemented!(),
     }
 }

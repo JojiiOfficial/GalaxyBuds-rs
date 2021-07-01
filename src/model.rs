@@ -4,6 +4,7 @@ pub enum Model {
     Buds,
     BudsPlus,
     BudsLive,
+    BudsPro,
 }
 
 /// Features which are only available by certain models.
@@ -44,6 +45,15 @@ impl Model {
             }
 
             Model::BudsLive => {
+                vec![
+                    Feature::Anc,
+                    Feature::RelieveAmbient,
+                    Feature::VoiceWakeup,
+                    Feature::AdjustSoundSync,
+                ]
+            }
+
+            Model::BudsPro => {
                 vec![
                     Feature::Anc,
                     Feature::RelieveAmbient,
