@@ -126,10 +126,18 @@ pub fn new(arr: &[u8], model: Model) -> ExtendedStatusUpdate {
             voice_wake_up: buff.get_bool(13),
             color_left: buff.get_short(14),
             color_right: buff.get_short(16),
-            ambient_sound_volume: 0,
+            ambient_sound_volume: buff.get(23) as i32,
             ambient_sound_enabled: false,
             ambient_mode: AmbientType::Normal,
-            extra_high_ambient: false,
+            extra_high_ambient: {
+                if buff.get(0) < 3 {
+                    buff.get_bool(22)
+                } else if buff.get(0) >= 6 {
+                    buff.get_bool(30)
+                } else {
+                    false
+                }
+            },
         },
 
         _ => unimplemented!(),
