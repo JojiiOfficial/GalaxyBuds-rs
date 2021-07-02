@@ -56,7 +56,6 @@ impl Model {
             Model::BudsPro => {
                 vec![
                     Feature::Anc,
-                    Feature::RelieveAmbient,
                     Feature::VoiceWakeup,
                     Feature::AdjustSoundSync,
                 ]
