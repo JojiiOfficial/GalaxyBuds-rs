@@ -22,7 +22,10 @@ pub mod voice_wakeup_listening_status;
 
 use crate::{
     model::Model,
-    utils::{self, byteutil, crc16},
+    utils::{
+        self, byteutil,
+        crc16::{self, crc16_ccitt},
+    },
 };
 
 /// End of message
@@ -78,7 +81,7 @@ pub trait Payload {
         b_arr2[0] = id;
         utils::array::arraycopy(&payload_data, 0, &mut b_arr2, 1, payload_data.len());
 
-        let crc16_ccitt = crc16::crc16_ccitt(&b_arr2, b_arr2.len() - 1);
+        let crc16_ccitt = crc16::crc16_ccitt(&b_arr2, b_arr2.len() - 2);
 
         let barr2_len = b_arr2.len();
         b_arr2[barr2_len - 2] = (crc16_ccitt & 255) as u8;
@@ -105,6 +108,7 @@ pub trait Payload {
 
 impl Message {
     /// Create a new message object from read data
+    #[inline]
     pub fn new<I: Into<Vec<u8>>>(data: I, model: Model) -> Message {
         Message {
             data: data.into(),
@@ -113,55 +117,79 @@ impl Message {
     }
 
     /// Get the payload length of the message
+    #[inline]
     pub fn get_payload_length(&self) -> i32 {
         self.get_u8() & 1023
     }
 
     /// Check whether the message is a fragment or not. Fragments seem
     /// only to be used in Fota messages
+    #[inline]
     pub fn is_fragment(&self) -> bool {
         self.get_u8() & 8192 != 0
     }
 
     /// Checks if a message is a response
+    #[inline]
     pub fn is_response(&self) -> bool {
         (self.get_u8() & 4096) != 0
     }
 
     /// Return the header of the message
+    #[inline]
     pub fn get_u8(&self) -> i32 {
         (byteutil::to_u8(self.data[2]) << 8) + byteutil::to_u8(self.data[1])
     }
 
     /// Get the payload start index of the messages data
+    #[inline]
     pub fn get_payload_start_index() -> usize {
         3
     }
 
     /// Return the bytes of the payload within the message
+    #[inline]
     pub fn get_payload_bytes(&self) -> &[u8] {
         &self.data[Self::get_payload_start_index() + 1..]
     }
 
     /// Get the message id
+    #[inline]
     pub fn get_id(&self) -> u8 {
         self.data[3]
     }
 
-    /// Verify that the message is correctly received using
-    /// the last 2 bytes of the message as crc checksum
+    /// Returns `true` if the given message really represents a message that should/can be parsed
+    #[inline]
+    pub fn is_message(&self) -> bool {
+        self.data
+            .get(self.get_payload_length() as usize + 3)
+            .map(|i| *i == 221)
+            .unwrap_or_default()
+    }
+
+    /// Verify that the message is correctly received using the last 2 bytes of the message as crc
+    /// checksum
     pub fn check_crc(&self) -> bool {
-        if self.data.len() < 2 {
+        if self.data.len() < 5 {
             return false;
         }
 
-        let mut arr: Vec<u8> = self.data.clone();
-        let l = arr.len();
+        let mut b_arr = self.payload_with_chsum().to_vec();
+        let l = b_arr.len();
 
-        let b = arr[arr.len() - 1];
-        arr[l - 1] = arr[arr.len() - 2];
-        arr[l - 2] = b;
+        let b = b_arr[l - 1];
+        b_arr[l - 1] = b_arr[b_arr.len() - 2];
+        b_arr[l - 2] = b;
 
-        true
+        crc16_ccitt(&b_arr, l) == 0
+    }
+
+    /// Returns the messages payload with the checksum
+    #[inline]
+    fn payload_with_chsum(&self) -> &[u8] {
+        let start = Self::get_payload_start_index();
+        let end = self.data.len() - 1;
+        &self.data[start..end]
     }
 }

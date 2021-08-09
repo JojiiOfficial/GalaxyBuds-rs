@@ -22,7 +22,7 @@ const CRC16TAB: [i32; 256] = [
 
 pub fn crc16_ccitt(barr: &[u8], i: usize) -> i32 {
     let mut i2 = 0 as i32;
-    for i3 in 0..i - 1 {
+    for i3 in 0..i {
         i2 = CRC16TAB[(((i2 >> 8) ^ barr[i3 as usize] as i32) & 255) as usize] ^ (i2 << 8);
     }
 
