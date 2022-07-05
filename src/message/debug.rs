@@ -69,40 +69,70 @@ pub struct GetAllData {
 }
 
 impl GetAllData {
-    pub fn new(arr: &[u8], model: Model) -> Self {
+    pub fn parse(arr: &[u8], model: Model) -> Option<Self> {
         let buff = ByteBuff::new(arr);
+
+        let rev = (buff.get(1) & 240) >> 4;
 
         let hw_version = {
             let buff1 = buff.get(1);
-            format!("rev{}{}", (buff1 & 240) >> 4, buff1 & 15)
+            format!("rev{}{}", rev, buff1 & 15)
         };
 
         if model == Model::Buds {
-            unimplemented!();
+            return None;
         }
 
-        let mut data = Self {
-            msg_version: buff.get(0),
-            revision: (buff.get(1) & 240) >> 4,
-            hw_version,
-            bt_address_left: buff.get_hex_str(6, 6).to_uppercase(),
-            bt_address_right: buff.get_hex_str(12, 6).to_uppercase(),
-            proximity_left: buff.get_short(30),
-            proximity_left_offset: buff.get_short(32),
-            proximity_right: buff.get_short(34),
-            proximity_right_offset: buff.get_short(36),
-            thermistor_left: buff.get_short(38) as f32 * 0.1_f32,
-            thermistor_right: buff.get_short(40) as f32 * 0.1_f32,
-            adc_soc_left: buff.get_short(42),
-            adc_vcell_left: buff.get_short(44) as f32 * 0.01,
-            adc_current_left: byteutil::calc_current(buff.get_short(46)),
-            adc_soc_right: buff.get_short(48),
-            adc_vcell_right: buff.get_short(50) as f32 * 0.01,
-            adc_current_right: byteutil::calc_current(buff.get_short(52)),
-            cradle_batt_left: buff.get(82),
-            cradle_batt_right: buff.get(83),
-            ..Default::default()
-        };
+        let mut data;
+        if model == Model::Buds2 {
+            data = Self {
+                msg_version: buff.get(0),
+                revision: rev,
+                hw_version,
+                bt_address_left: buff.get_hex_str(6, 6).to_uppercase(),
+                bt_address_right: buff.get_hex_str(12, 6).to_uppercase(),
+                proximity_left: buff.get_short(30),
+                proximity_left_offset: buff.get_short(32),
+                proximity_right: buff.get_short(34),
+                proximity_right_offset: buff.get_short(36),
+                thermistor_left: buff.get_short(38) as f32 * 0.1_f32,
+                thermistor_right: buff.get_short(40) as f32 * 0.1_f32,
+                // batt left
+                adc_soc_left: buff.get_short(42),
+                adc_vcell_left: buff.get_short(44) as f32 * 0.01,
+                adc_current_left: byteutil::calc_current(buff.get_short(46)),
+                // batt right
+                adc_soc_right: buff.get_short(48),
+                adc_vcell_right: buff.get_short(50) as f32 * 0.01,
+                adc_current_right: byteutil::calc_current(buff.get_short(52)),
+                cradle_batt_left: buff.get(82),
+                cradle_batt_right: buff.get(83),
+                ..Default::default()
+            };
+        } else {
+            data = Self {
+                msg_version: buff.get(0),
+                revision: (buff.get(1) & 240) >> 4,
+                hw_version,
+                bt_address_left: buff.get_hex_str(6, 6).to_uppercase(),
+                bt_address_right: buff.get_hex_str(12, 6).to_uppercase(),
+                proximity_left: buff.get_short(30),
+                proximity_left_offset: buff.get_short(32),
+                proximity_right: buff.get_short(34),
+                proximity_right_offset: buff.get_short(36),
+                thermistor_left: buff.get_short(38) as f32 * 0.1_f32,
+                thermistor_right: buff.get_short(40) as f32 * 0.1_f32,
+                adc_soc_left: buff.get_short(42),
+                adc_vcell_left: buff.get_short(44) as f32 * 0.01,
+                adc_current_left: byteutil::calc_current(buff.get_short(46)),
+                adc_soc_right: buff.get_short(48),
+                adc_vcell_right: buff.get_short(50) as f32 * 0.01,
+                adc_current_right: byteutil::calc_current(buff.get_short(52)),
+                cradle_batt_left: buff.get(82),
+                cradle_batt_right: buff.get(83),
+                ..Default::default()
+            };
+        }
 
         if model == Model::BudsLive {
             data.gyro_left_x = buff.get_short(84);
@@ -113,7 +143,7 @@ impl GetAllData {
             data.gyro_right_z = buff.get_short(94);
         }
 
-        data
+        Some(data)
     }
 
     // Return the bluetooth address of the given bud
@@ -177,9 +207,9 @@ impl GetAllData {
 }
 
 // Allow parsing Message to a GetAllData
-impl Into<GetAllData> for super::Message {
-    fn into(self) -> GetAllData {
-        GetAllData::new(self.get_payload_bytes(), self.model)
+impl Into<Option<GetAllData>> for super::Message {
+    fn into(self) -> Option<GetAllData> {
+        GetAllData::parse(self.get_payload_bytes(), self.model)
     }
 }
 

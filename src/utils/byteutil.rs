@@ -2,6 +2,10 @@ pub fn to_u8(b: u8) -> i32 {
     b as i32 & 255
 }
 
+pub fn int_to_u32(v: u32) -> u32 {
+    v & 4294967295
+}
+
 pub fn value_of_left(b: u8) -> u8 {
     (b & 0xF0) >> 4
 }

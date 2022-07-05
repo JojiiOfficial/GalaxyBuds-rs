@@ -12,3 +12,4 @@ description = "The Galaxy Buds rfcomm protocol reverse engineered"
 [dependencies]
 async-std = "1.9.0"
 bluetooth-serial-port-async = "0.6.3"
+serde = { version = "*", features = ["derive"] }

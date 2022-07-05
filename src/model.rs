@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 /// The device model.
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum Model {
@@ -5,6 +7,13 @@ pub enum Model {
     BudsPlus,
     BudsLive,
     BudsPro,
+    Buds2,
+}
+
+impl Display for Model {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.full_name())
+    }
 }
 
 /// Features which are only available by certain models.
@@ -20,6 +29,8 @@ pub enum Feature {
     Sidetone,
     VoiceWakeup,
     AdjustSoundSync,
+    // Extended Touchpad lock
+    ExtTouchpadLock,
 }
 
 impl Model {
@@ -54,12 +65,28 @@ impl Model {
             }
 
             Model::BudsPro => {
+                vec![Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync]
+            }
+
+            Model::Buds2 => {
                 vec![
                     Feature::Anc,
-                    Feature::VoiceWakeup,
+                    Feature::AmbientSound,
+                    Feature::OutsideDoubleTap,
                     Feature::AdjustSoundSync,
+                    Feature::ExtTouchpadLock,
                 ]
             }
+        }
+    }
+
+    pub fn full_name(&self) -> &'static str {
+        match *self {
+            Model::Buds => "Galaxy Buds",
+            Model::BudsPlus => "Galaxy Buds+",
+            Model::BudsLive => "Galaxy Buds Live",
+            Model::BudsPro => "Galaxy Buds Pro",
+            Model::Buds2 => "Galaxy Buds 2",
         }
     }
 
