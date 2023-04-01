@@ -83,6 +83,10 @@ impl GetAllData {
             return None;
         }
 
+        if model == Model::BudsPro2 {
+            return None;
+        }
+
         let mut data;
         if model == Model::Buds2 {
             data = Self {

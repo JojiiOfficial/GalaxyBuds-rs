@@ -7,6 +7,7 @@ pub enum Model {
     BudsPlus,
     BudsLive,
     BudsPro,
+    BudsPro2,
     Buds2,
 }
 
@@ -68,6 +69,11 @@ impl Model {
                 vec![Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync]
             }
 
+
+            Model::BudsPro2 => {
+                vec![Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync]
+            }
+
             Model::Buds2 => {
                 vec![
                     Feature::Anc,
@@ -86,6 +92,7 @@ impl Model {
             Model::BudsPlus => "Galaxy Buds+",
             Model::BudsLive => "Galaxy Buds Live",
             Model::BudsPro => "Galaxy Buds Pro",
+            Model::BudsPro2 => "Galaxy Buds Pro 2",
             Model::Buds2 => "Galaxy Buds 2",
         }
     }
