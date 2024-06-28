@@ -10,6 +10,6 @@ repository = "https://github.com/JojiiOfficial/GalaxyBuds-rs"
 description = "The Galaxy Buds rfcomm protocol reverse engineered"
 
 [dependencies]
-async-std = "1.12.0"
-bluetooth-serial-port-async = "0.6.3"
-serde = { version = "1.0.159", features = ["derive"] }
+async-std = "1.12"
+bluetooth-serial-port-async = "0.6"
+serde = { version = "1.0", features = ["derive"] }
