@@ -9,6 +9,7 @@ pub enum Model {
     BudsPro,
     BudsPro2,
     Buds2,
+    Buds3Pro,
 }
 
 impl Display for Model {
@@ -18,7 +19,7 @@ impl Display for Model {
 }
 
 /// Features which are only available by certain models.
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Feature {
     Anc,
     AmbientSound,
@@ -36,52 +37,38 @@ pub enum Feature {
 
 impl Model {
     /// Returns all available features for the given model.
-    pub fn get_features(&self) -> Vec<Feature> {
+    pub fn get_features(&self) -> &'static [Feature] {
         match self {
-            Model::Buds => {
-                vec![
-                    Feature::BatteryType,
-                    Feature::AmbientSound,
-                    Feature::AmbientVoiceFocus,
-                ]
-            }
-
-            Model::BudsPlus => {
-                vec![
-                    Feature::AmbientSound,
-                    Feature::OutsideDoubleTap,
-                    Feature::Sidetone,
-                    Feature::ExtraHighAmbientVolume,
-                    Feature::AdjustSoundSync,
-                ]
-            }
-
-            Model::BudsLive => {
-                vec![
-                    Feature::Anc,
-                    Feature::RelieveAmbient,
-                    Feature::VoiceWakeup,
-                    Feature::AdjustSoundSync,
-                ]
-            }
-
-            Model::BudsPro => {
-                vec![Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync]
-            }
-
-
-            Model::BudsPro2 => {
-                vec![Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync]
-            }
-
-            Model::Buds2 => {
-                vec![
-                    Feature::Anc,
-                    Feature::AmbientSound,
-                    Feature::OutsideDoubleTap,
-                    Feature::AdjustSoundSync,
-                    Feature::ExtTouchpadLock,
-                ]
+            Model::Buds => &[
+                Feature::BatteryType,
+                Feature::AmbientSound,
+                Feature::AmbientVoiceFocus,
+            ],
+            Model::BudsPlus => &[
+                Feature::AmbientSound,
+                Feature::OutsideDoubleTap,
+                Feature::Sidetone,
+                Feature::ExtraHighAmbientVolume,
+                Feature::AdjustSoundSync,
+            ],
+            Model::BudsLive => &[
+                Feature::Anc,
+                Feature::RelieveAmbient,
+                Feature::VoiceWakeup,
+                Feature::AdjustSoundSync,
+            ],
+            Model::BudsPro => &[Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync],
+            Model::BudsPro2 => &[Feature::Anc, Feature::VoiceWakeup, Feature::AdjustSoundSync],
+            Model::Buds2 => &[
+                Feature::Anc,
+                Feature::AmbientSound,
+                Feature::OutsideDoubleTap,
+                Feature::AdjustSoundSync,
+                Feature::ExtTouchpadLock,
+            ],
+            Model::Buds3Pro => {
+                // TODO
+                &[Feature::Anc]
             }
         }
     }
@@ -94,11 +81,12 @@ impl Model {
             Model::BudsPro => "Galaxy Buds Pro",
             Model::BudsPro2 => "Galaxy Buds Pro 2",
             Model::Buds2 => "Galaxy Buds 2",
+            Model::Buds3Pro => "Galaxy Buds3 Pro",
         }
     }
 
     /// Returns true whether a model has the given feature.
-    pub fn has_feature(&self, feature: Feature) -> bool {
-        self.get_features().iter().any(|i| *i == feature)
+    pub fn has_feature(&self, feature: &Feature) -> bool {
+        self.get_features().contains(feature)
     }
 }

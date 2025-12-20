@@ -20,10 +20,9 @@ impl Payload for AmbientModeUpdated {
     }
 }
 
-// Allow parsing Message to a StatusUpdate
-impl Into<AmbientModeUpdated> for super::Message {
-    fn into(self) -> AmbientModeUpdated {
-        AmbientModeUpdated::new(self.get_payload_bytes())
+impl From<super::Message> for AmbientModeUpdated {
+    fn from(value: super::Message) -> Self {
+        AmbientModeUpdated::new(value.get_payload_bytes())
     }
 }
 
@@ -69,13 +68,7 @@ impl Payload for SetAmbientMode {
     }
 
     fn get_data(&self) -> Vec<u8> {
-        vec![{
-            if self.enabled {
-                1
-            } else {
-                0
-            }
-        }]
+        vec![self.enabled as u8]
     }
 }
 
@@ -97,12 +90,6 @@ impl Payload for SetExtraHighVolume {
     }
 
     fn get_data(&self) -> Vec<u8> {
-        vec![{
-            if self.enabled {
-                1
-            } else {
-                0
-            }
-        }]
+        vec![self.enabled as u8]
     }
 }

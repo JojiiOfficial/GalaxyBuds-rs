@@ -5,10 +5,12 @@ pub struct TouchUpdated {
     pub status: bool,
 }
 
-/// New touch updated payload
-pub fn new(arr: &[u8]) -> TouchUpdated {
-    TouchUpdated {
-        status: arr[0] == 1,
+impl TouchUpdated {
+    /// New touch updated payload
+    pub fn new(arr: &[u8]) -> TouchUpdated {
+        TouchUpdated {
+            status: arr[0] == 1,
+        }
     }
 }
 
@@ -19,8 +21,8 @@ impl Payload for TouchUpdated {
 }
 
 // Allow Into TouchUpdated from message
-impl Into<TouchUpdated> for super::Message {
-    fn into(self) -> TouchUpdated {
-        new(self.get_payload_bytes())
+impl From<super::Message> for TouchUpdated {
+    fn from(value: super::Message) -> Self {
+        TouchUpdated::new(value.get_payload_bytes())
     }
 }

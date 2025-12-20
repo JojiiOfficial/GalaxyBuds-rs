@@ -211,9 +211,9 @@ impl GetAllData {
 }
 
 // Allow parsing Message to a GetAllData
-impl Into<Option<GetAllData>> for super::Message {
-    fn into(self) -> Option<GetAllData> {
-        GetAllData::parse(self.get_payload_bytes(), self.model)
+impl From<super::Message> for Option<GetAllData> {
+    fn from(value: super::Message) -> Self {
+        GetAllData::parse(value.get_payload_bytes(), value.model)
     }
 }
 
@@ -226,16 +226,16 @@ pub struct SerialNumber {
 impl SerialNumber {
     pub fn new(arr: &[u8]) -> Self {
         SerialNumber {
-            serial_number_left: byteutil::to_serial_number(&arr, 0, 11),
-            serial_number_right: byteutil::to_serial_number(&arr, 11, 11),
+            serial_number_left: byteutil::to_serial_number(arr, 0, 11),
+            serial_number_right: byteutil::to_serial_number(arr, 11, 11),
         }
     }
 }
 
 // Allow parsing Message to a SerialNumber
-impl Into<SerialNumber> for super::Message {
-    fn into(self) -> SerialNumber {
-        SerialNumber::new(self.get_payload_bytes())
+impl From<super::Message> for SerialNumber {
+    fn from(value: super::Message) -> Self {
+        SerialNumber::new(value.get_payload_bytes())
     }
 }
 
@@ -248,15 +248,15 @@ pub struct Sku {
 impl Sku {
     pub fn new(arr: &[u8]) -> Self {
         Sku {
-            sku_left: byteutil::to_serial_number(&arr, 0, 14),
-            sku_right: byteutil::to_serial_number(&arr, 14, 14),
+            sku_left: byteutil::to_serial_number(arr, 0, 14),
+            sku_right: byteutil::to_serial_number(arr, 14, 14),
         }
     }
 }
 
 // Allow parsing Message to a SerialNumber
-impl Into<Sku> for super::Message {
-    fn into(self) -> Sku {
-        Sku::new(self.get_payload_bytes())
+impl From<super::Message> for Sku {
+    fn from(value: super::Message) -> Self {
+        Sku::new(value.get_payload_bytes())
     }
 }

@@ -10,7 +10,7 @@ pub struct UsageReport {
 
 impl UsageReport {
     pub fn new(buf: &[u8]) -> Option<Self> {
-        let buff = ByteBuff::new(&buf);
+        let buff = ByteBuff::new(buf);
         let len = byteutil::to_u8(buff.get(0)) as usize;
 
         if buff.len() - 1 != len * 9 {

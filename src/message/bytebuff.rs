@@ -8,7 +8,7 @@ pub(crate) struct ByteBuff<'a> {
 
 impl<'a> ByteBuff<'a> {
     // Create a new ByteBuff
-    pub(crate) fn new(arr: &[u8]) -> ByteBuff {
+    pub(crate) fn new(arr: &[u8]) -> ByteBuff<'_> {
         ByteBuff { data: arr }
     }
 
@@ -34,7 +34,7 @@ impl<'a> ByteBuff<'a> {
 
     // Return a short value starting from offset
     pub fn get_short(&self, offset: usize) -> i16 {
-        byteutil::to_short(&self.data, offset)
+        byteutil::to_short(self.data, offset)
     }
 
     // Get a bool value at the given offset

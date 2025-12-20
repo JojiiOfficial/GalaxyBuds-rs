@@ -6,17 +6,19 @@ pub struct TouchAction {
     pub touch_count: u8,
 }
 
-/// New touch updated payload
-pub fn new(arr: &[u8]) -> TouchAction {
-    TouchAction {
-        side: {
-            if arr[0] == 1 {
-                bud_property::Side::Left
-            } else {
-                bud_property::Side::Right
-            }
-        },
-        touch_count: arr[1],
+impl TouchAction {
+    /// New touch updated payload
+    pub fn new(arr: &[u8]) -> TouchAction {
+        TouchAction {
+            side: {
+                if arr[0] == 1 {
+                    bud_property::Side::Left
+                } else {
+                    bud_property::Side::Right
+                }
+            },
+            touch_count: arr[1],
+        }
     }
 }
 
@@ -27,8 +29,8 @@ impl Payload for TouchAction {
 }
 
 // Allow Into TouchAction from message
-impl Into<TouchAction> for super::Message {
-    fn into(self) -> TouchAction {
-        new(self.get_payload_bytes())
+impl From<super::Message> for TouchAction {
+    fn from(value: super::Message) -> Self {
+        TouchAction::new(value.get_payload_bytes())
     }
 }

@@ -4,12 +4,11 @@ version = "0.2.10"
 authors = ["jojii <jojii@gmx.net>"]
 edition = "2018"
 readme = "README.md"
-license = "GPL-3.0"
 license-file = "LICENSE"
 repository = "https://github.com/JojiiOfficial/GalaxyBuds-rs"
 description = "The Galaxy Buds rfcomm protocol reverse engineered"
 
 [dependencies]
-async-std = "1.12"
+async-std = "1.13"
 bluetooth-serial-port-async = "0.6"
 serde = { version = "1.0", features = ["derive"] }

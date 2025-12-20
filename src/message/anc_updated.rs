@@ -21,8 +21,8 @@ impl Payload for AncModeUpdated {
 }
 
 // Allow parsing Message to a StatusUpdate
-impl Into<AncModeUpdated> for super::Message {
-    fn into(self) -> AncModeUpdated {
-        AncModeUpdated::new(self.get_payload_bytes())
+impl From<super::Message> for AncModeUpdated {
+    fn from(value: super::Message) -> Self {
+        AncModeUpdated::new(value.get_payload_bytes())
     }
 }

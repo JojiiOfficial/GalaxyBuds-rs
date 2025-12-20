@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use galaxy_buds_live_rs::message::{self, Payload}; // Note: Import 'Payload' to be able to convert the message to bytes
+use galaxy_buds_rs::message::{self, Payload}; // Note: Import 'Payload' to be able to convert the message to bytes
 
 use async_std::io::prelude::*;
 use bluetooth_serial_port_async::{BtAddr, BtProtocol, BtSocket}; /* https://crates.io/crates/bluetooth-serial-port-async */
@@ -9,7 +9,7 @@ async fn run() -> Result<(), Box<dyn Error>> {
     let address = "<Your Buds address here!!>";
 
     let mut socket = BtSocket::new(BtProtocol::RFCOMM).unwrap();
-    socket.connect(&BtAddr::from_str(address).unwrap()).unwrap();
+    socket.connect(BtAddr::from_str(address).unwrap()).unwrap();
 
     // Get the stream of the socket. Only call this function
     // once and keep using the stream

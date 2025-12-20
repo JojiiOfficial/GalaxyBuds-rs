@@ -16,7 +16,7 @@ pub fn new(left_muted: bool, right_muted: bool) -> MuteEarbud {
 
 impl Payload for MuteEarbud {
     fn get_data(&self) -> Vec<u8> {
-        vec![self.left_muted.into(), self.right_muted.into()]
+        vec![self.left_muted as u8, self.right_muted as u8]
     }
 
     fn get_id(&self) -> u8 {

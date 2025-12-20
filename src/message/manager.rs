@@ -20,13 +20,7 @@ impl Payload for SetManagerInfo {
     fn get_data(&self) -> Vec<u8> {
         vec![
             self.client_type,
-            {
-                if self.is_samsung_device {
-                    1
-                } else {
-                    2
-                }
-            },
+            { self.is_samsung_device as u8 },
             self.android_sdk,
         ]
     }

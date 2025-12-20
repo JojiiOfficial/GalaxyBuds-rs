@@ -63,8 +63,8 @@ pub trait Payload {
     /// Create a message byte array from a message. This
     /// is required to send a message to the buds.
     fn to_byte_array(&self) -> Vec<u8> {
-        let id = Self::get_id(&self);
-        let payload_data = Self::get_data(&self);
+        let id = self.get_id();
+        let payload_data = self.get_data();
         let payload_len = payload_data.len();
 
         let i2 = payload_len + 3;
@@ -72,7 +72,7 @@ pub trait Payload {
 
         let mut b_arr: Vec<u8> = vec![0; i3];
         b_arr[0] = BOM;
-        b_arr[i3 - 1 as usize] = EOM;
+        b_arr[i3 - 1] = EOM;
 
         let create_header = Self::create_header(self, i2 as i32);
         b_arr[1] = create_header[0];

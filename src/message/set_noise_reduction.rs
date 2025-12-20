@@ -12,7 +12,7 @@ pub fn new(noise_reduction: bool) -> SetNoiseReduction {
 
 impl Payload for SetNoiseReduction {
     fn get_data(&self) -> Vec<u8> {
-        vec![self.noise_reduction.into()]
+        vec![self.noise_reduction as u8]
     }
 
     fn get_id(&self) -> u8 {
