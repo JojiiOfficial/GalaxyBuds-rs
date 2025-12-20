@@ -11,6 +11,7 @@ pub mod ids;
 pub mod lock_touchpad;
 pub mod manager;
 pub mod mute_earbud;
+pub mod noise_controls_updated;
 pub mod response;
 pub mod set_noise_reduction;
 pub mod set_touchpad_option;

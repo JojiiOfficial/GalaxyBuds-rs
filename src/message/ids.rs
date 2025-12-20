@@ -33,6 +33,7 @@ pub const MANAGER_INFO: u8 = 136;
 pub const MSG_ID_OUTSIDE_DOUBLE_TAP: u8 = 149;
 pub const MUTE_EARBUD: u8 = 162;
 pub const MUTE_EARBUD_STATUS_UPDATED: u8 = 163;
+pub const NOISE_CONTROLS_UPDATE: u8 = 119;
 pub const NOISE_REDUCTION_MODE_UPDATE: u8 = 155;
 pub const PASS_THROUGH: u8 = 159;
 pub const RESET: u8 = 80;

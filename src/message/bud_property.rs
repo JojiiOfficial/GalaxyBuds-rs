@@ -193,3 +193,31 @@ impl BudProperty for AmbientType {
         }
     }
 }
+
+/// NoiseControlMode
+#[derive(Debug, PartialEq, Copy, Clone)]
+pub enum NoiseControlMode {
+    Off,
+    NoiseReduction,
+    AmbientSound,
+}
+
+impl BudProperty for NoiseControlMode {
+    type Item = NoiseControlMode;
+
+    fn decode(val: u8) -> NoiseControlMode {
+        match val {
+            1 => NoiseControlMode::NoiseReduction,
+            2 => NoiseControlMode::AmbientSound,
+            _ => NoiseControlMode::Off,
+        }
+    }
+
+    fn encode(&self) -> u8 {
+        match *self {
+            NoiseControlMode::Off => 0,
+            NoiseControlMode::NoiseReduction => 1,
+            NoiseControlMode::AmbientSound => 2,
+        }
+    }
+}
