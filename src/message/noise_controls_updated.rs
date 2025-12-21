@@ -1,5 +1,5 @@
 use super::bud_property::{BudProperty, NoiseControlMode, Placement, Side};
-use super::{ids, Payload};
+use super::{Payload, ids};
 
 // Whether the buds changed the noise control status by a touchpad event
 #[derive(Debug, Clone, Copy)]
@@ -29,8 +29,8 @@ impl Payload for NoiseControlsUpdated {
 }
 
 // Allow parsing Message to a StatusUpdate
-impl Into<NoiseControlsUpdated> for super::Message {
-    fn into(self) -> NoiseControlsUpdated {
-        NoiseControlsUpdated::new(self.get_payload_bytes())
+impl From<super::Message> for NoiseControlsUpdated {
+    fn from(value: super::Message) -> Self {
+        NoiseControlsUpdated::new(value.get_payload_bytes())
     }
 }
